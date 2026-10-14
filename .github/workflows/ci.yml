@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate:
-    name: 校验交付物并试构建
+    name: 自检交付物
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,5 +22,25 @@ jobs:
       - name: 自检 Chinese.lng 与中文帮助
         run: python installer/validate_pack.py
 
-      - name: 试构建自解压安装程序（含 payload 回读自检）
+  build:
+    name: 试构建安装程序
+    runs-on: windows-latest   # 打 exe 需要 Windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装打包工具
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: 构建 install程序与发布包（含自检）
         run: python installer/build_installer.py
+
+      - name: 留存构建产物（便于在 PR 上实测）
+        uses: actions/upload-artifact@v4
+        with:
+          name: Victoria-zhCN-package
+          path: installer/Victoria-zhCN-package.zip
+          retention-days: 7

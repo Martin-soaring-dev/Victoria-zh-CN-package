@@ -24,11 +24,11 @@
 
 ## 📦 安装
 
-**从 [Releases](../../releases) 下载唯一的一个包 `Victoria-zhCN-package.zip`**，解压到 Victoria 程序根目录（与 `Victoria.exe` 同级）。包内就三样东西：
+**从 [Releases](../../releases) 下载唯一的一个包 `Victoria-zhCN-package.zip`**，解压到 Victoria 程序根目录（与 `Victoria.exe` 同级）。包内就这几样：
 
 ```
 Victoria-zhCN-package.zip
-├── Install-ZhCN.cmd      ← 一键安装程序（双击即装）
+├── Install-ZhCN.exe      ← 自解压安装程序（双击即装）
 ├── 安装说明.txt
 ├── LNG\Chinese.lng       ← 中文语言包
 └── Help\Chinese\*.rtf    ← 中文帮助
@@ -36,10 +36,10 @@ Victoria-zhCN-package.zip
 
 ### 方式一：一键安装（推荐）
 
-双击 `Install-ZhCN.cmd`。它先检测同目录有没有 `Victoria.exe`：
+双击 `Install-ZhCN.exe`。它会先检测同目录有没有 `Victoria.exe`：
 
-- **有** → 自动覆盖安装 `LNG\Chinese.lng` 与 `Help\Chinese\*.rtf`，并把语言切换为中文
-- **没有** → 提示你把包解压到 Victoria 根目录，不做任何操作
+- **有** → 解压覆盖 `LNG\Chinese.lng` 与 `Help\Chinese\*.rtf`，并把语言自动切换为中文
+- **没有** → 弹窗提示你把程序放到 Victoria 根目录，**不落任何文件**
 
 ### 方式二：解压即用
 
@@ -64,7 +64,7 @@ Victoria-zhCN-package.zip
 |---|---|
 | `Chinese.lng` | 中文语言包（交付物，5.23 + 5.37 合并版） |
 | `Help/Chinese/` | 中文帮助（`vichlp.rtf` 使用手册 / `whatsnew.rtf` 更新日志 / `dcomemo.rtf` DCO 说明） |
-| `installer/` | 构建脚本与产物（`Install-ZhCN.cmd` 单文件安装程序；发布时另打包为 `Victoria-zhCN-package.zip`） |
+| `installer/` | 安装程序源码与构建脚本（`installer_gui.py` + `build_installer.py`；产物 `Install-ZhCN.exe` 与发布包，均不入库） |
 | `.github/workflows/` | CI 校验 + 发布自动打包 |
 | `skill/`、`soul.md` | 汉化工艺与项目维护文档 |
 | `reference/` | 本地开发用（官方基线、翻译表、RTF 管线），**按设计不进库** |
@@ -72,9 +72,13 @@ Victoria-zhCN-package.zip
 ## 🔧 开发者
 
 ```bash
+pip install pyinstaller               # 打 exe 需要（CI 也是这么装的）
 python installer/validate_pack.py     # 自检交付物（CI 同款，提交前跑一遍）
-python installer/build_installer.py   # 构建 Install-ZhCN.cmd + 唯一发布包 Victoria-zhCN-package.zip（含回读自检）
+python installer/build_installer.py   # 生成 payload.zip → PyInstaller 打 Install-ZhCN.exe → 组装 Victoria-zhCN-package.zip
 ```
+
+安装程序本体是 `installer/installer_gui.py`：原生 Win32 弹窗（`MessageBoxW`，不依赖 tkinter）、
+纯 Python 逻辑，带 `--silent` 无界面自检模式（写 `install-log.txt`，供自动化验证）。
 
 - **发布流程**：打 tag → GitHub 建 Release 并发布 → `release.yml` 自动构建并上传**唯一一个**发布包，无需本地打包。
 - **CI**：每次 push / PR 跑 `ci.yml`，自检 + 试构建安装程序。
