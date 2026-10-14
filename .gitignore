@@ -1,0 +1,62 @@
+# ============================================================
+# .gitignore 通用模板
+# 用法：按需删减，只保留你项目用到的部分
+#
+# 语法速查（注意：# 注释必须独占一行，不能写在规则后面）：
+#   # 注释              注释行
+#   /dir/              只匹配目录
+#   /file              只匹配仓库根目录下的 file
+#   *.log              匹配任意层级的 .log
+#   !keep              取消忽略（例外）
+#   **                 跨目录匹配任意层级
+#   调试命令：git check-ignore -v <path>
+# ============================================================
+
+# ---------- 日志与临时文件 ----------
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+tmp/
+temp/
+*.tmp
+.cache/
+
+
+# ---------- 环境变量（切勿提交密钥！）----------
+.env
+.env.*
+!.env.example
+
+
+# ---------- 测试与覆盖率 ----------
+coverage/
+.nyc_output/
+htmlcov/
+.pytest_cache/
+*.cover
+junit.xml
+
+# ---------- 前端框架 ----------
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+.turbo/
+.parcel-cache/
+.storybook-out/
+.vite/
+
+# ---------- 数据库与本地服务 ----------
+*.sqlite
+*.sqlite3
+*.db
+
+# ---------- 本项目需要排除的 ----------
+
+# Agent产物目录
+.workbuddy/
+
+# 参考文件
+.reference/

@@ -1,0 +1,155 @@
+# ============================================================
+# .gitignore 通用模板
+# 用法：按需删减，只保留你项目用到的部分
+#
+# 语法速查（注意：# 注释必须独占一行，不能写在规则后面）：
+#   # 注释              注释行
+#   /dir/              只匹配目录
+#   /file              只匹配仓库根目录下的 file
+#   *.log              匹配任意层级的 .log
+#   !keep              取消忽略（例外）
+#   **                 跨目录匹配任意层级
+#   调试命令：git check-ignore -v <path>
+# ============================================================
+
+
+# ---------- 系统与编辑器 ----------
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Vim / 通用备份
+*.swp
+*.swo
+*~
+
+# JetBrains 系列（IDEA / WebStorm / PyCharm ...）
+.idea/
+
+# VS Code：忽略整个目录，但保留团队共享的配置
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+
+# ---------- 依赖目录 ----------
+# Node
+node_modules/
+jspm_packages/
+bower_components/
+
+# PHP
+vendor/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+
+# ---------- 构建产物 ----------
+build/
+dist/
+out/
+target/
+*.o
+*.so
+*.dll
+*.exe
+*.class
+
+
+# ---------- 日志与临时文件 ----------
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+tmp/
+temp/
+*.tmp
+.cache/
+
+
+# ---------- 环境变量（切勿提交密钥！）----------
+.env
+.env.*
+!.env.example
+
+
+# ---------- 测试与覆盖率 ----------
+coverage/
+.nyc_output/
+htmlcov/
+.pytest_cache/
+*.cover
+junit.xml
+
+
+# ---------- 锁文件（按团队约定二选一）----------
+# 应用类项目推荐提交 lock 以保证构建可复现；
+# 若团队明确不提交，取消下面三行注释：
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+
+# ---------- 前端框架 ----------
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+.turbo/
+.parcel-cache/
+.storybook-out/
+.vite/
+
+
+# ---------- Python ----------
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.mypy_cache/
+.ruff_cache/
+.tox/
+instance/
+.webassets-cache
+
+
+# ---------- Java / Android ----------
+*.jar
+*.war
+.gradle/
+local.properties
+
+
+# ---------- Go ----------
+# 注意：Go 编译出的二进制通常无扩展名，需按项目名手动加一行
+*.test
+*.out
+
+
+# ---------- 数据库与本地服务 ----------
+*.sqlite
+*.sqlite3
+*.db
+
+
+# ---------- 文档生成物 ----------
+site/
+docs/_build/
+
+
+# ---------- 其他 ----------
+.terraform/
+*.tfstate
+*.tfstate.*
