@@ -1,0 +1,442 @@
+{\rtf1\ansi\ansicpg936\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset134 Microsoft YaHei;}}{\colortbl ;\red0\green176\blue80;\red0\green0\blue255;\red0\green77\blue187;\red255\green0\blue0;}\viewkind4\uc1\pard\sa200\sl276\slmult1\f0\fs22\lang2052 \pard\qc\sa200\sl276\slmult1\cf1 \fs44 Victoria 5.37 HDD/SSD\par
+\pard\qc\sa200\sl276\slmult1\fs22 用于测试 HDD、SSD、USB、CD 和 Flash 存储设备的程序。\par
+\pard\qc\sa200\sl276\slmult1\cf2 \fs28 \b 新版本的变更与说明\b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.37 版新增功能（2021 年 10 月 14 日）\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 整整一个夏天都在不紧不慢地改进各种小细节，结果愣是把变更列表弄丢了。一大堆事情导致程序开发一度中断，现在已经记不全了。所以只能把这次丢失记在"新冠病毒"账上，然后继续干活。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 新增对 SAS / SCSI 存储设备的支持：\par
+\pard\li568\sa200\sl276\slmult1\fs22 · 检测真实的 SCSI 和 SAS 总线——在通行证面板上给出指示；\par
+\pard\li568\sa200\sl276\slmult1\fs22 · 通过真正的"START Unit"和"Stop Unit"命令控制 SCSI / SAS 设备的启动/停止；\par
+\pard\li568\sa200\sl276\slmult1\fs22 · 读取温度日志；\par
+\pard\li568\sa200\sl276\slmult1\fs22 · 读取贴牌硬盘的内部型号名称；\par
+\pard\li568\sa200\sl276\slmult1\fs22 · 获取制造商的版权信息；\par
+\pard\li568\sa200\sl276\slmult1\fs22 · SCSI 设备序列号的获取已按标准修正。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 开始为 SAS/SCSI 存储设备实现 S.M.A.R.T. 获取功能。它们包含大量日志，从中可以收集到与 ATA 设备 SMART 属性相似的数据。已经迈出了第一步——获取 HDD 的"健康状态"并加以解读，以及温度、累计运行时间等参数。目前该功能尚处实验阶段：不支持数据库、不翻译、也不保存到文件。下次争取改进，并加上缺陷表解析。\par
+\pard\li284\sa200\sl276\slmult1\fs22 如果用户对 SCSI / SAS 主题感兴趣，程序后续可能会朝这个方向继续发展。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 请求通行证时新增输出 SAS / SCSI 和 NVMe 存储设备的温度。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 对查找"调包盘"的算法做了一些改进。目前尚未最终完成，但准确率有望提高，卡死问题也可能得到解决。如果到时候有用户抱怨，就得把"调包盘"检测功能做成可关闭的。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 实现了基于 SMART 的 HDD"健康"软件分析。存储设备自报的所谓"SMART 状态"往往过于乐观（明显有故障的 HDD 也报告状态=GOOD）。"设置"选项卡 -> SMART 中新增了方法选择，现在默认采用软件分析。这个相当简单的算法会检查几个与缺陷相关的属性。新增了"Unideal"状态选项——用于 SMART 状态不理想、但也没有严重问题的存储设备。以后会逐步改进算法。而顺理成章的结果是——不返回状态的 USB 存储设备问题也一并解决了。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 现在当鼠标指针与曲线相交（允许一定容差）时，图上就会显示速度。如果指针离图较远，则显示已绘制各点中记录到的最大速度。结果比原来好，但目前只对读取曲线有效，而且我还不满意，以后会做得更好。反正图表本来就需要认真重做。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 组合键 CTRL + A 现在不再打开"关于程序"帮助，而是在"编辑器"中用于快速选中块。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 编辑器中新增了将内容保存到文件（Download）和从文件加载数据到编辑器（Upload）的按钮。文件大小最大 64 KB，但试图从编辑器写入磁盘时，只会写入一个扇区，其编号以编辑器中指定的为准。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 在编辑器中重写扇区时——现在会向日志添加一条记录，注明重写事实及扇区编号。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 将扇区保存到磁盘的按钮（"保存"）现在会一直锁定，直到用户按下"打开"按钮。这样做是为了防止用户不小心用编辑器的空内容覆盖分区表。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 选择其他存储设备时，"保存"按钮同样会失效。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 更换存储设备时现在会清空分区表（免得残留上一个设备的分区表）。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 新增了 Seagate HDD 系列检测。通行证中会输出内部名称（Alias），有时还有商用代号（如 7200.11）。这有助于精确识别计算机内的 HDD、挑选供体盘等等。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - 新增了西班牙语支持（Spanish - Colombia）。感谢 Carlos Medina 制作并发来了翻译文件。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - ! 图表菜单中增加了绘制过程中禁止清除图表的限制。荒诞的事情又少了一件。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - ! 修复了表面扫描已结束、而时间显示仍停留在负数的故障。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - ! 修复了 WD 硬盘启用的物理磁头数量判断错误的问题。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - ! 修复了通过劣质 USB 转接器以 SCSI 模式连接时出现"Integer overflow"（整数溢出）错误的问题。\par
+\pard\li284\sa200\sl276\slmult1\fs22 - ! 修复了型号名称中含有非法字符时创建日志会弹出"错误 103"的问题。\par
+\pard\li284\sa200\sl276\slmult1\fs18 - 开了推特 - https://twitter.com/Disktester 这辈子头一回听说这是啥）而这种纯文本微博的形式看起来正合适。或许这能让我更贴近群众。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.36 版新增功能（2021 年 3 月 5 日）\par
+\pard\qc\sa200\sl276\slmult1\fs24 "新技术的演进"\par
+\pard\sa200\sl276\slmult1\fs22 - 现在通过日志菜单打开的不再是日志本身，而是它所在的文件夹。日志本身仍可双击窗口，用 Windows 默认文本编辑器打开。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 尝试修复某些型号 HGST 在 5.34 和 5.35 版本上卡死的问题。为此修改了"调包存储设备"检测算法，并大幅降低了 WD 工艺命令误入 HGST 的概率。\par
+\pard\sa200\sl276\slmult1\fs22 - 重写了真实 HGST 的检测流程。现在通过 USB 也能工作，即使是在屏蔽寄存器的桥接芯片上。\par
+\pard\sa200\sl276\slmult1\fs22 - 碰到一台 Apple 电脑，其 GPT 分区表中 CHS 不等于 0/0/2，大小为 FFFFFFE 而非 FFFFFFFF。Victoria 的 GPT 分析器识别不了这种分区表，只好对程序加以改进。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了 WDxxxx-22xST0 和某些其他旧型号的检测错误——程序此前一直把它们当成 Seagate。\par
+\pard\sa200\sl276\slmult1\fs22 - 改进了对伪装成 Seagate 的"真正"Samsung 的识别（但目前仅在程序内部使用）。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 原来 SCT-Ext 命令在旧款 WD 上不起作用，因此通行证页面不显示它们的温度。此前可以在设置中手动切换 SCT 模式，但这次我在代码里修好了。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了 PIO 模式下 PCI 扫描后通行证列宽错乱的故障。\par
+\pard\sa200\sl276\slmult1\fs22 - 应大家要求，增加了在 API 设备列表更新时（重新连接 USB 存储设备时同样会更新）不改变工作环境的功能。该选项在"设置"选项卡 - "API" - "设备列表更新时不重置设置"复选框中启用，默认关闭。与旧版本相比，启用该复选框后，在 API 设备列表更新及 USB 存储设备重连时，程序行为将发生如下变化：1. 表面扫描中的"校验-读取-写入"切换开关不会复位到"读取"。2. 不会清空 SMART 表格和日志列表。3. 不会重新初始化 HEX 编辑器。4. End LBA 不会恢复为最大值。\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 - ! 上一版（5.35）启用了"接口检查"功能。不久就发现某些 USB 桥接芯片会"搅局"——本该返回写入缓冲区的数据，却输出一片全零。程序对这种不一致自然要报错。一如既往，这又是 Seagate 及其招牌 USB 桥"Backup+"的杰作。新版本改进了算法，能够区分此类情况与真正的接口故障。\par
+\pard\sa200\sl276\slmult1\fs22 \i - 整理了获取"纯净"通行证和"扩展"通行证的按钮逻辑：SCT 温度、"调包盘"检测、SMR 存储设备检测等附加功能移到了"EXT"按钮，"通行证"按钮则恢复了不向存储设备发送任何多余命令的能力。不过为了保持兼容性和用户习惯，默认仍保留旧方案，可在"设置"菜单 - "通行证"中切换到新方案。\i0 \par
+\pard\sa200\sl276\slmult1\fs24 - ! 消除了若干在执行各种操作时可能降低程序稳定性的错误。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 5.35 版新增功能（2020 年 12 月 16 日）\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了某些情况下导致无法确定 SCSI 和 Flash 存储设备序列号的错误。\par
+\pard\sa200\sl276\slmult1\fs22 - WD 存储设备新增了启用物理磁头数量的显示。\par
+\pard\sa200\sl276\slmult1\fs22 - 通行证设置中默认取消了"诊断命令"复选框。是的，我知道命令 03 ... EF 根本不是用来诊断的 :) 但自 2004 年以来还没想出更好的替代方案，而且在 API 模式下它无需寄存器即可完成，这对某些 USB 桥接芯片来说相当重要。等有心情时，我再想个更现代的命令来取代它。\par
+\pard\sa200\sl276\slmult1\fs22 - EXT 通行证中的"接口检查"现在在 API 模式下也能工作了。\par
+\pard\sa200\sl276\slmult1\fs22 - EXT 通行证设置中在 API 模式下不适用的复选框，现在会被禁用。\par
+\pard\sa200\sl276\slmult1\fs22 - 并非所有存储设备都能从通行证中获取温度，有时只能通过 SMART。因此在这一版中，如果通行证里没有温度，请求 SMART 时会把它显示在面板上。当勾选"查询 SSD 累计写入量"复选框时，在 SSD、NVMe 上按 EXT 通行证按钮也会显示温度。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一个非常奇怪的错误：从 SMART 切换到通行证时会二次请求通行证。说它奇怪，是因为出现一年来从未造成过妨碍。不过重复获取通行证似乎也没必要，我就顺手修了，以防万一。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.34 版新增功能（2020 年 12 月 9 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了 CD-ROM 类设备过滤器，避免它们的盘符错误地显示在 API 物理设备列表中。若要在程序中处理光盘及其模拟器，可在"设置" -> "通行证"菜单中勾选"显示逻辑磁盘"。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.33 版新增功能（2020 年 12 月 7 日）\par
+\pard\qc\sa200\sl276\slmult1\fs24 "打击 WD"\par
+\pard\sa200\sl276\slmult1\fs22 - 物理设备列表中新增了逻辑磁盘盘符的显示。该选项默认关闭，可在"设置" -> "API"一节中启用。\par
+\pard\sa200\sl276\slmult1\fs22 - 实现了获取 WD 存储设备的真实缓存大小（包括伪装成 HGST 的型号）。\par
+\pard\sa200\sl276\slmult1\fs22 - 实现了获取 WD 的若干技术信息：制造日期、RAM 容量、盘片和磁头数量、区域数量、伺服标记、精确转速。直接输出到通行证中。\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了通行证中间列宽的记忆功能。\par
+\pard\sa200\sl276\slmult1\fs22 - 现在获取存储设备通行证时，即使在 API 模式下也会向 ATA 设备发送自诊断命令：03 0C 00 4F C2 A0 EF。而且现在连普通（非 EXT）通行证模式下也会发送该命令。这是由于出现了一个奇怪的错误——要么在 Windows 10 驱动，要么在华硕主板上（某处没有清理 task file 的输出缓冲区，其他电脑上则没有这个错误）。以后再细查。目前建议不要在设置中禁用该命令——在故障可能显现的场合，它会初始化与硬盘的通道。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了虚拟磁盘序列号的故障（没有 S/N 时会显示上一个存储设备的编号）。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.32 版新增功能（2020 年 12 月 2 日 21:33）\par
+\pard\sa200\sl276\slmult1\fs22 \i - ! 修复了新功能与某些 HGST 存储设备交互时导致 Smart Command Transport 协议被阻塞的错误。\i0 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\cf2 \fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.31 版新增功能（2020 年 12 月 2 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了"调包盘"识别功能。Western Digital 与 HGST 两家公司的技术合并后——市面上出现了几十种型号相同（标签和通行证上的型号名称一致）但内容迥异的产品。实际上，这就是贴 HGST 标签的 WD 存储设备，反之亦然。"Victoria"程序中加入了一个实验性算法，无论 WD 和 HGST 通行证上写的是什么名字，都能查明其真实"内核"。发现"调包盘"时会向日志输出消息。\par
+\pard\sa200\sl276\slmult1\fs22 注意！该算法目前在 USB 存储设备配合 HGST 时效果不佳，因为某些 USB 桥接芯片会屏蔽寄存器传输。问题棘手，但并不致命，后续版本将会改进。\par
+\pard\sa200\sl276\slmult1\fs22 - 改进了 WD HDD 上 SMR 技术的识别，包括新的 Passport/Elements 系列。\par
+\pard\sa200\sl276\slmult1\fs22 - 修复了一些小错误。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.30 版新增功能（2020 年 11 月 30 日）\par
+\pard\qc\sa200\sl276\slmult1\fs24 \par
+\pard\sa200\sl276\slmult1\fs22 - 新增了对 HDD 中 SMR 技术的检测尝试。\par
+\pard\sa200\sl276\slmult1\fs22 \b *SMR（Shingled Magnetic Recording，叠瓦式磁记录）——一种信息存储技术，通常会导致 HDD 参数变差，因此常被制造商隐瞒。程序会尝试通过专门算法判断这一特性，但目前尚不能保证 100% 准确。与此同时，存储设备通行证面板下方会亮起瓦片色的 SMR 指示灯。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 改进了对 Seagate / Samsung STxxx 系列的识别，以便更准确地显示它们的 SMART。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了帮助系统有时无法切换选项卡的故障。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.29 版新增功能（2020 年 11 月 27 日）\par
+\pard\qc\sa200\sl276\slmult1\fs18 "服务与错误修复"\par
+\pard\qc\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 本版本在"设置 - 常规"菜单中关闭了最小化到托盘功能，并在"设置 - API"菜单中关闭了 12 字节 SCSI 命令的使用。安装程序后，您可以自行开启这些功能。\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了 GPT 分区表分析器。为了更温和地对待可能有缺陷的待测硬盘——该流程相比系统自带工具做了简化：不分析主 GPT 头，不计算校验和，只处理第一份表副本，切换到第二份副本需手动进行。\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了禁止显示器在测试期间进入睡眠模式的功能。\par
+\pard\sa200\sl276\slmult1\fs22 - 从日志向剪贴板复制数值时，去掉了多余的换行。\par
+\pard\sa200\sl276\slmult1\fs22 - PIO 模式下写入时也实现了扇区编号。\par
+\pard\sa200\sl276\slmult1\fs22 - 测试面板上实现了按 TAB 键从 Start LBA 跳转到 End LBA。\par
+\pard\sa200\sl276\slmult1\fs22 - 帮助系统新增了记住当前位置的功能，可保持到程序重启。以前每次调用帮助都从头打开。\par
+\pard\sa200\sl276\slmult1\fs22 \b - 帮助系统新增了文本搜索功能，按 CTRL + F 呼出。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 现在大多数设置在关闭"设置"面板后立即写入 INI 文件。这样做是为了更好地兼容最小化到托盘模式。\par
+\pard\sa200\sl276\slmult1\fs22 - 每次写入日志时都会更新日志文件夹的创建日期，为了方便使用和排序。该选项可关闭。\par
+\pard\sa200\sl276\slmult1\fs22 - 在写入/擦除模式下新增了将任意扇区模板（512 字节）写入磁盘的功能。为此需在测试面板上选择"写入"，取消勾选"编号"，然后打开缓冲区查看器并按"Load"按钮，在弹出的对话框中选择预先准备好的 512 字节模板文件，扩展名必须为 .bin。若要重置模板（恢复写入全零），需勾选后再取消"编号"复选框。\par
+\pard\sa200\sl276\slmult1\fs22 - 为 SSD OSZ 新增了 SMART 属性 167。\par
+\pard\sa200\sl276\slmult1\fs22 - HEX 编辑器中新增了字符显示编码选择，方便研究存储设备内容。遗憾的是，由于 Unicode 的特性，与 4.xx 版本程序的兼容仅限于读取。\par
+\pard\sa200\sl276\slmult1\fs22 - "测试"面板上新增了关闭随机读取定时器的开关。\par
+\pard\sa200\sl276\slmult1\fs22 - "Scan"按钮的下拉菜单现在响应鼠标左键点击。以前左键不好使，招来用户满满的恨意，我被这事搞得头都大了，心灵恐怕再也回不到从前……\par
+\pard\sa200\sl276\slmult1\fs22 - "获取磁盘名称"复选框（自 Windows 98 时代起就已过时）被替换为一个不记忆状态的 GPT 第二副本选择开关。\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了一个开关，允许像 4.xx 版本那样在截图文件名中加入存储设备名称和序列号（设置 -> 界面）。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了表面扫描结束后此前被禁用的睡眠模式不恢复的错误。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一些拼写错误\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了表面扫描暂停后无法拖动地图滑块的错误。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一个故障：打开 HEX 编辑器选项卡时，即使在 API 模式下，查看分区表的按钮上也会出现"请获取通行证"的提示（该提示最初是 PIO 模式所需，用于防止把别人的分区表写进硬盘，因为在 PIO 模式下自动获取通行证是被禁止的）。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了 HEX 编辑器的一个严重故障：试图在其中用俄语字母输入时（其他 Unicode 编码语言可能也是如此）会出现"range check error"错误。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了分区表查看器中分区大小超过存储设备容量时的错误。此前会输出负数之类的胡说八道。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一个缺陷：选择逻辑磁盘作为测试对象时，编辑器中的"分区表"按钮居然可以点击。分区本身并没有分区表，于是会输出各种乱七八糟的内容。现已禁止。\par
+\pard\sa200\sl276\slmult1\fs22 - 由于更换了居住地，自我宣传栏目中的城市已更改。网站名称 hdd.by 没有变，也不打算改！最近其他域名上开始出现"Victoria"程序官方网站的克隆站点，我与它们毫无关系。\par
+\pard\sa200\sl276\slmult1\fs22 - 更改了项目赞助栏目中的 Mastercard 支付卡号。\par
+\pard\sa200\sl276\slmult1\fs22 - 赞助栏目中新增了 Ethereum 加密货币钱包。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.28 版新增功能（2020 年 4 月 14 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 现在从 SMART 图表菜单临时更新数据库时，图表会立即刷新。\par
+\pard\sa200\sl276\slmult1\fs22 - 如果没有数据库——获取 SMART 时会立即尝试创建它。若失败（磁盘被写保护等），在退出程序前不再尝试。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了 SMART 图表不从零开始、而从最小值开始绘制的功能——适用于绝对值较大且变化不大的属性。启用该模式的复选框暂时不记忆状态。\par
+\pard\sa200\sl276\slmult1\fs22 - 复合属性的曲线现在用不同粗细的线条绘制。\par
+\pard\sa200\sl276\slmult1\fs22 - 温度属性 190、194、231、[SSD 上为 189]，SSD 上的 231 除外——现在强制切换到图表 0。\par
+\pard\sa200\sl276\slmult1\fs22 - 图表选择的活动元素现在会高亮显示——或许这样更方便。\par
+\pard\sa200\sl276\slmult1\fs22 - 为了让曲线不在 0 刻度或最大刻度处重叠，各曲线之间人为错开了 +/- 2 像素。\par
+\pard\sa200\sl276\slmult1\fs22 - SMART 属性表增加了提示，告知点击某一行即可查看该属性的变化图表。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 改进了对使用不同小数分隔符地区的兼容性。现在小数以字符串形式写入 ini 文件。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了"将 RAW 值拆分为单独数字"复选框不保存的错误（原因是有猫跳上了键盘，篡改了 ini 文件里的键名）。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一处没做完的完善——重绘时忽略单个图表关闭开关的问题。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了一处没做完的完善——存储设备不支持 W-R-V 功能时菜单不禁用的问题。\par
+\pard\sa200\sl276\slmult1\fs22 - 遇到一台 HGST HUS722T1TALA604，它实际是 WD 的新型号，SMART 中有属性 #16。肉眼可见，这个属性不过是在统计读取和写入的扇区数量。因此对 HGST 和 WD 相应地改了名，而它在其他系列中的名称 gas gauge / "气量校准"则换成了更贴近该英语固定表达的说法——"加注油位"。它究竟是什么，目前还不清楚，时间和图表会给出答案。\par
+\pard\sa200\sl276\slmult1\fs22 - 启用了 SMART 校验和检查。所有现代存储设备的属性表都带有校验和（很老的型号如 Fujitsu 则不一定）。校验和失真说明 HDD 微码已遭破坏。校验和异常时会发出警告，并忽略向数据库添加属性。这是目前避免污染数据库的唯一办法。\par
+\pard\sa200\sl276\slmult1\fs22 - 事件日志菜单中新增了"在文件夹中打开日志"一项。该命令用 Windows 自身的功能在所选存储设备日志的实际所在位置打开它。我还实验性地为双击加入了同样的操作，但如果碍事就撤掉。\par
+\pard\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.27 版新增功能（2020 年 4 月 5 日）\par
+\pard\sa200\sl276\slmult1\fs22 - ! 果然，在某些日期/时间格式包含星期几的系统上，该格式放不进数据库。已为数据库预留了更多空间。\par
+\pard\sa200\sl276\slmult1\fs22 注意！在使用本版本前——请删除旧数据库（日志文件夹中以 SMBASE 开头的文件），否则程序将无法正常工作。\par
+\pard\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.26 版新增功能（2020 年 4 月 5 日）\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了程序中关闭提示信息后，鼠标悬停时图表数据点标签消失的错误。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 修复了 SMART 图表标题中存储设备序列号不隐藏的错误。\par
+\pard\sa200\sl276\slmult1\fs22 - ! 尝试修复了在某些日期/时间区域设置的系统上导致程序无法启动的错误（现在最后一次获取 SMART 的日期和时间以数字格式而非文本格式保存）。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.25 版新功能（2020 年 4 月 3 日）\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 实现了 SMART 属性数据库的维护功能。本版本数据库容量 = 17520 个 SMART 快照。按 1 小时的轮询间隔计算，该容量大约够用 2 年。这只是 SMART 统计数据采集的初级阶段。在后续版本中我会尝试改进这项服务。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 实现了 SMART 属性变化曲线的绘制与显示。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 支持提取"来自过去的 SMART"——只需点击曲线上的任意一点即可。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 \i 注意！首次启动时需要一些时间来积累数据库。第一条记录将在设定的轮询间隔（默认 15 分钟）后出现，之后每过一个间隔出现一条，依此类推。而且，只有在手动查询 SMART 时数据库才会更新。如需自动更新——请使用"最小化到托盘"复选框，本发行版中该选项默认关闭。最小更新间隔 = 2 分钟。\i0 \par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 实现了程序最小化到系统托盘并在后台轮询 SMART 的功能——以便自动扩充数据库并进一步绘制曲线。默认在"设置" - "常规"选项卡中关闭。该功能目前尚不完善，只是试验性地加上去的。暂时还没有检测第二个副本启动的机制。如果大家喜欢，我会继续朝这个方向努力。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 \i 如何将程序添加到 Windows 开机启动：按 Win+R，在弹出的窗口中输入命令 shell:startup，然后将 Victoria.exe 文件拖入打开的文件夹并创建快捷方式。\i0 \par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 为 SMART 属性添加了简短说明，与曲线一同显示，帮助新手理解属性变化的含义。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在 Maxtor STM3xxx 存储设备上，第 9 个 SMART 属性看起来很奇怪：通电时间明显低于实际值。我在算法中加入了忽略第 9 个属性打包值的处理，看来好转了一些。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 按照程序第 5 代重新编写了设置帮助文件。请仔细阅读。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了一些小错误。\par
+\pard\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 5.24 版新功能（2020 年 3 月 9 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 我发现有些用户在分享出去的截图上涂掉序列号。既然能自动化，何必手动做呢？我添加了"隐藏序列号"按钮——就在顶部面板序列号右侧的叉号。如果希望序列号在日志中也不显示——需要重新获取一次通行证。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了关闭通过 USB 桥接芯片获取的 ATA 寄存器的选项（位于"设置"的"API"选项卡中）。原因：某些 USB 桥接芯片在查询寄存器时会卡住 1-2 秒。\par
+\pard\sa200\sl276\slmult1\fs22 - 应大家要求，增加了弹出提示（悬停提示）显示时长的设置，范围 3...60 秒。在"设置 - 界面"菜单中设置。\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了 Crucial / Micron SSD 系列的新 SMART 属性：\par
+\pard\sa200\sl276\slmult1\fs22 183 SATA 接口降速 194 外壳温度 210 RAIN 成功恢复页计数 246 累计主机写入扇区数 247 主机编程页计数 248 FTL 编程页计数\par
+\pard\sa200\sl276\slmult1\fs22 - 鉴于一些用户的严厉批评，针对 MBR 相关操作关闭了 ATA 缓存。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了在存储设备中启用写入校验功能（Write-Read-Verify，aka W-R-V）并随之启动表面擦除的选项。当然，这会牺牲速度，但只需一个遍历周期而不是两个。该选项位于"操作"菜单和"缓存与临时功能"实用工具中。\par
+\pard\sa200\sl276\slmult1\fs22 - 取消了窗口尺寸记忆的限制。以前最大为 1000 x 1000 点，超过后尺寸将不被保存。\par
+\pard\sa200\sl276\slmult1\fs22 - 防止了被测 USB 存储设备被拔出后，程序切换到设备选择列表中相邻存储设备的情况。但是，只有在通行证中关闭"显示逻辑磁盘"选项时，该功能才生效。\par
+\pard\sa200\sl276\slmult1\fs22 - 在"快速扫描"绘制曲线之前，为曲线设置留出了更多时间。这消除了曲线在刚开始时出现的塌陷——以前版本中偶尔会出现这种情况。\par
+\pard\sa200\sl276\slmult1\fs22 - 修复了几个可能导致在使用其他界面元素时扫描曲线出现塌陷的原因。\par
+\pard\sa200\sl276\slmult1\fs22 - 把读取/写入指示灯放回了侧面板。\par
+\pard\sa200\sl276\slmult1\fs22 - 程序现在会在日志中报告翻译文件缺少某些必要的字符串。如果只更新了程序的 .exe 文件，而其余文件仍为旧版本，就可能出现这种情况。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.23 版新功能（2019 年 12 月 31 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 为较老的 IBM/Hitachi/HGST 存储设备添加了 SMART 初始化命令。   - !修复了一个 SMART 获取错误，该错误可能导致丢失最后几个属性（此问题在 5.22 中引入）。\par
+\pard\sa200\sl276\slmult1\cf2 \fs28 - 修复了点击"暂停"按钮时出现的拼写错误。\par
+\pard\qc\sa200\sl276\slmult1\fs24 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.22 版新功能（2019 年 12 月 12 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 改进了程序与旧版 USB 存储设备的兼容性，这些设备遇到 16 字节 SCSI 命令就会挂住。现在，只要勾选"仅使用 12 字节命令"复选框，程序连 16 字节命令都不会去尝试。\par
+\pard\sa200\sl276\slmult1\fs22 - 为 IBM/Hitachi/HGST 存储设备添加了流行工具 DFT 和 FT 中的部分功能（位于"服务"菜单项中）：  1) 清除 SMART。  2) 擦除数据，并将缺陷从用户区转移到工厂区。  3) 切换 SATA 模式（速率）。 4) 永久启用/禁用缓存。  应该适用于所有还没变成 WD 的 HGST 现代 SATA 硬盘。在其他存储设备上会报错——因为使用的是特殊的工艺命令。近期计划在网站上撰文介绍这些选项。\par
+\pard\sa200\sl276\slmult1\fs22 - 修改了通过擦除修复缺陷的选项算法。现在发现错误时，会擦除整个块，而不是逐扇区进行。结果运行更稳定、更快（在半死不活的 WD 上验证过）。\par
+\pard\sa200\sl276\slmult1\fs22 - 还在 Windows 10 下、在带有分区且未关闭 MBR 的 HDD 上验证了通过 SCT 协议以擦除方式修复缺陷的可行性。效果很好。\par
+\pard\sa200\sl276\slmult1\fs22 - 改进了截图流程。去除了图像边缘多余的像素。应要求将文件名格式改为：日期_时间_选项卡.png  - !修复了一个疏漏：此前主窗体上分隔日志区的水平分隔条位置不会被记住。\par
+\pard\sa200\sl276\slmult1\fs22 - hdd.by 网站上发布了针对 Victoria 程序第 5 代的问答（FAQ）更新。\par
+\pard\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.21 版新功能（2019 年 11 月 29 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 修改了存储设备容量检测算法，考虑了从 7 到 10 各版本 Windows 的特性。并不存在通用的方法。某些功能在不同系统中表现略有不同，甚至完全不工作。因此在"设置" -> "通行证"中添加了开关，可以彻底禁用 SCSI 命令 25 和 9E。默认两条命令都启用，第一条失败后程序会尝试第二条。但如果您的系统出现诸如检测磁盘时程序卡住等现象——可以尝试勾选这些复选框。这种情况下，存储设备容量将通过精度较低的第三种功能来检测，但总比什么都没有好。\par
+\pard\sa200\sl276\slmult1\fs22 - 关闭了事件日志中多余的滚动条，因为在某些系统上会出现异常。这不会影响程序的外观。\par
+\pard\sa200\sl276\slmult1\fs22 - 出于实验目的，在"设置" -> "SMART"中添加了一个开关，可将 NVMe SMART 的获取切换到另一种模式。通常这不会有任何影响，但如果您的存储设备无法获取 NVMe SMART，请尝试勾选相应的复选框。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\cf2 \fs28 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 5.20 版新功能（2019 年 11 月 27 日）\par
+\pard\sa200\sl276\slmult1\fs22 - 新增对 NVMe 接口存储设备的支持，遵循 v1.0 标准，部分支持 1.4。( https://nvmexpress.org/wp-content/uploads/NVM-Express-1_4-2019.06.10-Ratified.pdf )。具体做了以下工作：\par
+\pard\sa200\sl276\slmult1\fs22 + 识别存储设备是否具有 PCIe 总线；    + 获取 NVMe 通行证及其中一定量的数据（序列号、支持的选项）。\par
+\pard\sa200\sl276\slmult1\fs22 \b + 支持 NVMe SMART。属性名称已翻译成俄语。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 目前只在 Samsung 970 Pro SSD 上验证过。随着其他 SSD 的出现——算法会不断完善。\par
+\pard\sa200\sl276\slmult1\fs22 提醒用 Victoria 制作启动盘的朋友：NVMe 支持只有在系统中存在这些存储设备的驱动时才能工作。Windows 10 默认自带这些驱动，而对于 8.1 和服务器操作系统，很可能需要使用额外的更新包，或以其他方式集成驱动。在 hdd.by 网站可以下载 .torrent 文件，其中包含经过程序运行验证的 Windows 10 PE 示例镜像。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了在测试期间阻止 Windows 屏幕保护程序的功能，以避免 Windows 10 可能断开被测 USB 存储设备的问题。\par
+\pard\sa200\sl276\slmult1\fs22 \b - 增加了关闭 WD 存储设备磁头自动停泊的功能，也可以自行设定停泊时间。该实用工具位于"服务" -> "声音与节能"部分。至少，它应该适用于所有 WD 3.5" 和老款 WD 2.5"（2017 年以前，不带 SMR 技术）。某些 USB 设备不返回 ATA 寄存器，这种情况下该工具无法验证结果，只会乐观地报告"OK"。在新款 WD Passport/Elements 上应该无效，即使它报告"OK" :)\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 尝试为不支持 INQUIRY 命令的 U 盘及其他类型存储设备检测序列号。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了对 SD/eMMC 接口存储设备的识别。\par
+\pard\sa200\sl276\slmult1\fs22 - 表面扫描结束时现在会统计最大、最小和平均速度，以及曲线的点数。\par
+\pard\sa200\sl276\slmult1\fs22 - 通过 HEX 编辑器写入失败时会给出提示，并借助 Windows 手段解读错误代码。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了拖动窗体下边缘时窗体行为的选择。现在拉伸的是主窗口而不是日志区——这样更方便。但也可以切回以前的模式。\par
+\pard\sa200\sl276\slmult1\fs22 - 在界面设置中可以更改右下角面板的字号和颜色。\par
+\pard\sa200\sl276\slmult1\fs22 - 测速器已适配快速的 NVMe SSD。现在它不会抖动了。\par
+\pard\sa200\sl276\slmult1\fs22 - 千位分隔符现在到处都是，包括事件日志和 SMART 日志。菜单里我特意没做，时间久了你们会明白为什么。\par
+\pard\sa200\sl276\slmult1\fs22 - 通行证菜单现在会显示被复制的字符串或数字。\par
+\pard\sa200\sl276\slmult1\fs22 - 顶部参数面板中的字段宽度已适配存储设备型号名称和序列号的长度。\par
+\pard\sa200\sl276\slmult1\fs22 - 遇到一个"Lexar USB Flash Drive"U盘，读取速度高达 320MB/s（通过 USB 3.1）。因此，默认 64 扇区的块大小被认为不合时宜。对于容量超过 8GB 的可移动设备，我设置了自动使用 2048 扇区的块。\par
+\pard\sa200\sl276\slmult1\fs22 - 首次在 Windows 10 下测试了程序。结果发现 SCSI 命令 9E 无法工作。而且只在某些 USB 桥接芯片上如此。在所有以前版本的 Windows 上都能用，而在 Windows 10 上会卡住大约 30 秒，然后报错退出。操作系统就是这样进行技术演化的。我改了改算法，情况好多了。\par
+\pard\sa200\sl276\slmult1\fs22 \b - 该版本首次不仅兼容 Windows 10，而且是在 Windows 10 x64 中创建的。兼容性涉及 API 模式。PIO 模式请暂时使用 32 位操作系统。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 略微修正了 SanDisk SSD 的 SMART 属性解读。不过，要彻底搞定这些 SSD，得等我手头有实物才行。\par
+\pard\sa200\sl276\slmult1\fs22 - SMART 中的大数值现在会拆分成几个小数值，方便研究打包属性。该选项可以关闭。\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 - SMART 属性 HEX RAW 值切换复选框已移到主窗体。此外，它现在会被记住。如果您制作过自己的翻译文件，请把该元素的译文移到另一个节。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了单独的界面设置选项卡。"常规"选项卡中的部分元素已移到"界面"选项卡，以便更轻松地在设置中定位。\par
+\pard\sa200\sl276\slmult1\fs22 - 切换语言以及某些其他操作时，现在更新 SMART 无需访问存储设备（数据取自缓冲区）。\par
+\pard\sa200\sl276\slmult1\fs22 - 为 800x600 屏幕做了"应急模式"。此时程序会自动去掉窗体上多余的内容，拉伸至全屏，让用户可以立即开始工作。\par
+\pard\sa200\sl276\slmult1\fs22 - !修复了一个错误：API 模式下开启指示灯时会破坏缓冲区的开头。\par
+\pard\sa200\sl276\slmult1\fs22 - !修复了几个错误：在某些罕见的巧合下，它们会导致出现"Priveleged instruction'并紧急终止程序。\par
+\pard\sa200\sl276\slmult1\fs22 \b - !修复了定位测试流程中的一个错误，该错误有时可能导致程序卡死。\b0 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \par
+\pard\qc\sa200\sl276\slmult1\fs24 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 5.1 版新功能（2019 年 10 月 28 日）：\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 恢复了此前关闭的千位分隔符（其适配有些麻烦）。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了界面的乌克兰语翻译（译者 - Sergei Orlov https://datex.dp.ua/ ）。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了翻译 SMART 属性名称的功能。\par
+\pard\sa200\sl276\slmult1\fs22 - SMART 属性名称已翻译成俄语和乌克兰语。\par
+\pard\sa200\sl276\slmult1\fs22 - 菜单中的小改进，添加了一些项目以便更方便地复制数值，等等。\par
+\pard\sa200\sl276\slmult1\fs22 - 作为试验，实现了通过 SCT 协议进行块重映射和擦除。这种方式在 Windows 7 及以上系统中无需关闭 MBR。它直接对运行中的磁盘进行擦除，绕过所有保护——请务必小心。该选项默认在设置中关闭。其工作需要硬盘支持 AC2 标准，但幸运的是，近 13 年来的几乎所有 ATA HDD 都支持……\par
+\pard\sa200\sl276\slmult1\fs22 - 稍微研究了 Samsung Evo 850 SSD，弄清了第 235 个 SMART 属性的真实用途，并让程序适配了它。\par
+\pard\sa200\sl276\slmult1\fs22 - 略微调整了检测到 SSD 时的扫描时序。\par
+\pard\sa200\sl276\slmult1\fs22 - 脚本扫描执行完毕后增加了声音提示。\par
+\pard\sa200\sl276\slmult1\fs22 - 又修复了一批错误。总体而言，5.03 版在大规模测试中已表现出良好的稳定性，因此 5.1 应该会更好。\par
+\pard\sa200\sl276\slmult1\fs22 - !修复了一个小毛病：在逻辑扇区大于 512 字节的硬盘上，显示的剩余时间比实际短。\par
+\pard\sa200\sl276\slmult1\cf2 \fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 5.03 版新功能（2019 年 10 月 21 日）：\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 实现了节能功能 APM 的管理。与 AAM 不同，硬盘在断电后不会记住设置。\par
+\pard\sa200\sl276\slmult1\fs22 - 为了演示无需关闭程序即可实时切换语言，增加了英语翻译。您可以把它做得更好，和/或发给我，以便纳入后续版本。\par
+\pard\sa200\sl276\slmult1\fs22 \b - 为每种语言的帮助系统文件建立了单独的文件夹。您可以用所需语言编写帮助文本，并将其放入以该语言命名的文件夹中。文件夹名称必须与不带扩展名的 .lng 文件名完全一致，这样切换语言时它们就会自动挂接到程序上。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - !修复了更改 SMART 测试窗体大小时出现的小毛病。\par
+\pard\sa200\sl276\slmult1\fs22 - !消除了（嗯，或者说明显减少了）拉伸窗体时表面扫描图中的伪影。\par
+\pard\sa200\sl276\slmult1\fs22 - !修复了程序启动时曲线菜单会蔓延到扫描图上的问题。\par
+\pard\sa200\sl276\slmult1\fs22 - 表面测试期间，禁止了 SMART、日志和通行证的自动获取。以降低在存储设备可能出现故障时其上的负载。\par
+\pard\sa200\sl276\slmult1\fs22 - 作为试验，实现了鼠标悬停时列表自动滚动。可在设置中关闭。\par
+\pard\sa200\sl276\slmult1\fs22 - 恢复了 API 模式下扫描遇到代码 04（ABRT）时自动停止的功能——这是除已有致命错误类型之外新增的停止类型。如果觉得碍事——请在设置中关闭。\par
+\pard\sa200\sl276\slmult1\fs22 - 让"绿色"块的日志记录设置可以被记住。\par
+\pard\sa200\sl276\slmult1\fs22 - !恢复了曲线模式下扫描后地图的滚动功能。单元格大小设置（此前会造成干扰）已改为可在设置中关闭。\par
+\pard\sa200\sl276\slmult1\cf2 \fs22 \b - !在 HPA 中，获取存储设备真实容量前会自动取消"将 LBA 转换为 MB"复选框的勾选，以避免转换时的舍入误差（以及由此导致的无法恢复真实容量）。\b0 \par
+\pard\sa200\sl276\slmult1\cf2 \fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 5.02 版新功能（2019 年 10 月 18 日）：\b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 修复了 ini 文件中出现负数时、以及在改变窗口大小时某些特定情况下出现的 'Range check error' 错误。\par
+\pard\qc\sa200\sl276\slmult1\cf2 \fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 5.01 版新功能（2019 年 10 月 18 日）：\b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\sa200\sl276\slmult1\fs22 - 增加了测试执行期间禁止计算机进入睡眠模式的功能。\par
+\pard\sa200\sl276\slmult1\fs22 - !某些存储设备在使用 SCT 命令获取温度时会出现异常。暂时通过屏蔽异常值来消除。\par
+\pard\sa200\sl276\slmult1\fs22 - 通过菜单紧急退出现在也会记住设置了。\par
+\pard\sa200\sl276\slmult1\fs22 - !修复了秒数 = 0 时扫描时间测定的小毛病\par
+\pard\sa200\sl276\slmult1\fs22 - SMART 中增加了多选行功能，并且可以只将选中的行复制到剪贴板。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 5.0 版新功能（2019 年 10 月 17 日）：\b0 \par
+\pard\sa200\sl276\slmult1\fs22 界面发生了根本性的变化：\par
+\pard\sa200\sl276\slmult1\fs22 - 新增了主菜单和工具栏。\par
+\pard\sa200\sl276\slmult1\fs22 - 窗体现在可以全屏展开，各部分的尺寸可以任意设定。所有设置都会保存。\par
+\pard\sa200\sl276\slmult1\fs22 - 速度上限提高到 9800MB/s，曲线点数则与其宽度成正比。\par
+\pard\sa200\sl276\slmult1\fs22 - 很少使用的功能移到了主菜单。\par
+\pard\sa200\sl276\slmult1\fs22 - 设置面板已结构化。增加了新的设置项。例如，可以开启遇到致命错误时停止扫描，甚至可以更改某些界面元素的颜色。\par
+\pard\sa200\sl276\slmult1\fs22 - 奠定了将界面翻译成其他语言的基础，但目前还不需要为此做什么——在后续版本中我计划不仅添加界面文字的翻译，还会添加程序消息的翻译。\par
+\pard\sa200\sl276\slmult1\fs22 - 界面元素已翻译成俄语。目前可能包含错误——这只是一次试验。后续还计划翻译所有内部消息。默认在主菜单中处于关闭状态\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了更多可以在设置中关闭的自动化功能。\par
+\pard\sa200\sl276\slmult1\fs22 - 可以从主菜单启动功能增强的 SMART 测试。\par
+\pard\sa200\sl276\slmult1\fs22 - 曾尝试将 Extended Comprehensive SMART Error log 适配到不同型号的 Fujitsu HDD（它们的结构地址各不相同）。这在 MHX、MHW 系列上取得了成功。但在 MJA 上还不行——需要做分析并再写一个例程。\par
+\pard\sa200\sl276\slmult1\fs22 - 双击 SMART 日志即可在编辑器中打开它；\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了新的 SMART 日志名称；\par
+\pard\sa200\sl276\slmult1\fs22 - 尝试为 NVMe SSD 自动设置块大小。\par
+\pard\sa200\sl276\slmult1\fs22 - 增加了通过 Smart Command Transport 在通行证中显示温度的功能，并扩展了对存储设备支持属性的检测。\par
+\pard\sa200\sl276\slmult1\fs22 - 程序不再尝试在 U 盘和 SCSI 存储设备上获取 SMART。\par
+\pard\sa200\sl276\slmult1\fs22 - IBM Super-SMART 现在不仅可以尝试在 IBM/HGST 存储设备上获取，在其他任何设备上也可以。这样做是因为，开始遇到打着 WD 名号的 HGST 存储设备，其上的超级 SMART 也可能有效。\par
+\pard\sa200\sl276\slmult1\fs22 - 修复了 4.76 版的大量错误，地方不够就不一一列举了……\par
+\pard\qc\sa200\sl276\slmult1\cf2 \fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 4.76 版新功能（2019 年 9 月 8 日）：\b0 \par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 增加了通过 Device Configuration Overlay 配置存储设备的功能——这是一种特殊的非易失性存储器，可以在其中关闭不需要的功能、重新启用先前关闭的功能，或更改可用容量。新增了 DCO 选项卡，其中还有一份简要说明（外部文件 dcomemo.rtf）。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 改进了对 Extended Comprehensive SMART Error log 的处理：事实证明，不同型号的寄存器地址并不相同。这可能导致在某些 Seagate 和 Fujitsu HDD 上错误解读数据。已将算法适配到不同厂商。\par
+\pard\sa200\sl276\slmult1\fs22 运行正确性已在 Fujitsu MHZ、HGST 3.5、Seagate/Maxtor 3.5"（7200.11）、WD、Samsung STxxx 35"、Seagate STxxx 2.5"、Toshiba 2.5" 上得到验证。目前尚不能在所有 HTSxxx 2.5" 上工作——我会研究其原因。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 增加了日志目录与旧存储设备的兼容模式。目前——通过目录下方的复选框手动切换（供试验用）。今后——根据通行证数据自动切换。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 界面元素（端口和设备号）向右移动了，"Hints"复选框移到了底部。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在缺陷重映射模式中增加了 Auto Reassign 事件检测功能，即硬盘自行重映射缺陷扇区的情况。此时日志中输出的不是 Remap 一词，而是形如 "LBAxxx auto reassign... OK" 的消息。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了自动截图不从 Tests 选项卡截取的错误。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 4.75 版新功能（2019年9月5日）：\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了 SMART 负温度显示的故障，那是我在做实验时引进来的。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了 "Erase if error" 之后重新校验块的错误。这问题存在已久了，源于适配 Windows 10——当时磁盘的部分访问权限受到了限制。现在校验改成了读取，因为读取需要的权限更少——于是一切都正常运转了。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 重映射前会关闭写入缓存，以尽量减少重映射后检查的误报结果。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在重映射的签名填充内容中加入了当前 LBA 编号，形式为字符串 LBA xxxxxxxx，放置在已修复扇区的 0 偏移处。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在 "Erase if error" 时块的扇区填充内容中加入了 LBA 编号，形式为字符串 LBA xxxxxxxx，以及时间标记，形式为 "Block erased 当前日期 当前时间"。上述两个功能均可通过 vcr40.ini 文件某一节中的键禁用：\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 [Scan]  Write signatures=0\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !程序退出时改为"静默"写入 vcr40.ini。现在在写保护介质上也不会报错了。这么做都是为了更好地兼容 Live CD。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在 Win 7 及更高版本下，试图向启用了 MBR 的存储设备写入时，会冒出系统错误 05h——"拒绝访问"。现在程序一碰到这个错误，就会提示去看 FAQ #6，https://hdd.by/victoria_faq\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 增加了把 3.5" Toshiba HDWE HDD 识别为"正宗"机型的功能——它们并非 IBM/HGST 的后裔。以便更准确地显示它们的 SMART。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 出现 API 错误"设备不再可用"时（这意味着存储设备长时间卡死，已被 Windows 当故障设备摘掉）——表面扫描会停下来。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在日志按每个存储设备分开记录。在日志文件夹（默认为 LOGS/）下会创建以各存储设备型号名和序列号命名的子文件夹，事件日志、通行证、SMART、图表、截图等等都放进去。"具名"日志同时会复制一份到总事件日志。程序首次运行时还没拿到存储设备通行证（因此也不知道型号名），万它故障了、不吐名字——所有信息也照样进总事件日志。"未命名"截图文件夹也一并搬进了 LOGS/。分开日志功能可在 Setup 选项卡上取消 "Separate logs" 复选框关闭。\par
+\pard\li284\sa200\sl276\slmult1\fs22 表面扫描的缺陷现在写入单独的日志。会创建以型号名和序列号命名的目录，里面放一个名为 "bads_型号名_序列号.txt" 的文件。每次启动扫描，该文件都会记下启动时间和发现的所有缺陷。文件是文本格式，每次都是追加写入。TXT 文件格式很简单：第一行写标题 "Victoria defects log 1.0"。然后隔着任意数量空行——是一行日期时间，形如 "Start: 30.08.2019 17:16:52"（"Start" 一词必填）。后续各行写扫描范围记录，形如 xxxx, yyy（其中 xxx 是起始地址，yyy 是扇区数量）。行内可以在数字右边至少空一个空格，再加上任意注释。连续的几行构成一个会话。空行意味着会话结束。.vds 格式日志用于专业软件，标题和记录格式都不一样。加它是为了兼容性。今后打算把这个列表当脚本用，用来重新校验和修复此前扫描中、或修复失败时发现的缺陷。这样只查有问题的区段、省去扫全盘，就能省下时间。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 支持按缺陷列表扫描表面（例如此前表面扫描创建的日志）。为此 "Scan" 按钮上出现了下拉菜单。程序会分析列表，找到其中最后一个已填充的节，告知将使用哪些行号，把 "Scan" 按钮改为 "Start script" 并等待点击。按列表工作时——会显示其执行进度条。\par
+\pard\li284\sa200\sl276\slmult1\fs22 添加了对 HDD / SSD SMART 日志的支持：  - 获取 SMART 日志列表（目录），并解析其中最重要的两个：Extended Comprehensive SMART Error log（存储设备工作期间出过的错误清单）和 Ext SMART Selftest Log（内置 SMART 测试的自检结果清单）。两个日志都是新式的，48 位。旧式 Comprehensive SMART Error log 日志也做了简化解析——但暂时没看出有啥意义。要是有人特别需要旧存储设备的这些日志——我来做。  - 支持从 SMART 日志生成带缺陷列表的脚本（和扫描生成的那个类似）。用于快速自动检查有问题的位置。实践表明，地址开头要按块大小留点余量。已经这么做了。今后该给地址加上排序和去重，但暂时懒得动手。注意：Host 日志支持写入，用来保存在磁盘低级格式化后依然挺得住的信息。其余只读（存储设备对写入尝试会返回错误）。后续版本我打算加上对其他日志的解读——如果我能找到它们的结构说明的话。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 为了研究日志做了个 HEX 查看器，还能把日志写进文件、从文件读出来。直接编辑暂时还没做。\par
+\pard\li710\fi-502\sa200\sl276\slmult1\fs22 \i 尝试通过 API 点亮指示灯。即使经过某些 USB 控制器以及 Windows 标准的 ATA / AHCI 通道，大概率也能工作。默认关闭。可以通过以下方式开启：[Setup] API ATA Indicators=1\i0 \par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在写入测试切换为读取只在更换存储设备时发生，而非测试结束时。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 重映射或擦除测试结束后——现在会输出成功修复的扇区数量。\par
+\pard\li284\sa200\sl276\slmult1\fs22 支持在 INI 文件中指定截图目录的替代路径。为此添加了如下形式的键：   [Setup]   ThirdPathSCR='D:DocsYandexDisk!ScreenShots' 路径可以任意，以 '' 结尾。若值为空或键不存在——将从程序设置中取路径。若路径不正确——文件将无法写入，并在日志中发出警告。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · ! 复制单行到 clipboard 时不再带入换行。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 ! 修复了其他小错误并改进了算法。\par
+\pard\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 4.73 版新功能（2019年4月22日）：\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !发现设置文件（vcr40.ini）中某些不凑巧的参数组合会导致端口号无法被记住。已修复。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · SMART 窗口可以整个全屏显示：右键菜单中有 "Full screen" 项，或按 CTRL+A。在通用全屏界面出现之前，这暂时是应要求的临时方案。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 补充并改进了 Kingston SSD 的 SMART。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 对 USB 硬盘做了适配——其 USB 桥会把标准 512 字节逻辑扇区转换成 4096 字节。同时修复了代码中约 20 处，并在通行证中增加了对逻辑扇区大小非标准的存储设备的显示。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 写入时的扇区编号、大扇区在 HEX 编辑器中的显示现在可以正常工作了。时间、扫描百分比、最大块大小、甚至时序都会适配非标准大小的扇区。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在当通过 API 进行重映射、读取、写入、擦除块和 Refresh 失败时——程序会把 Windows 关于该情况的系统消息输出到日志（因为它由 kernel32.dll 生成，所以直接用 Windows 的语言——不要见怪）。这样，例如就可以区分存储设备的物理缺陷和因 MBR 未禁用而导致的访问被拒。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 碰到一个 A-DATA USB 存储设备 "Nobility NH92"，程序无法获取其 SMART。原来里面装了个蠢得不行的 USB 桥 MA6116，一遇 16 字节 SCSI 命令就卡死。只好加了手动开启兼容模式的功能——Setup 选项卡上的 Old USB/SAS mode 复选框。请测试勾选和不勾选时程序的表现。在大多数新设备上，任何状态下都应该能工作。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !消除了一个遗留缺陷：扫描期间获取通行证/SMART 时会触发"超时"错误。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了一个故障：在通行证选项卡上磁盘已选中、通行证已读取……而在 Advanced 选项卡上却不允许读取分区表，除非再获取一次通行证。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了一个错误：带重映射读取时，程序在发现缺陷后会停止（仅在 PIO 下出现）。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了一个错误：在缺陷后停止扫描时，"网格"弹出菜单有时会消失。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !修复了通过 USB 停止 HDD 主轴/休眠 SSD 过程中的遗留缺陷。原来在某个 USB 桥上原生 SCSI 命令不起作用。增加了尝试通过 USB 发送 ATA 命令代替 SCSI 命令的过程，于是一切正常了。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !同时修复了一个错误："停转主轴"时程序会把某些 SSD 误认成 HDD。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · !消除了在快速 PC 上关闭主窗口时可能出现 access violation 错误的原因。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 防止程序窗口在启动时超出屏幕边界。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 超时参数中的 "never" 值又像它应该的那样表示无限等待时间。Refresh 功能除外，在那里它表示"每个块都刷新"。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 应要求，在扫描网格中恢复了垂直滚动条。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 恢复了 Tests 选项卡上 Grid 复选框的记忆功能。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 支持在通行证中关闭 CHS 参数显示，因为它们已经过时。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在存储设备通行证中增加了 Smart Command Transport (SCT) 参数显示。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在 Advanced 选项卡上，现在可以把 MBR 分区表中的数字复制到剪贴板，还可以把分区的地址范围展开成表面扫描。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 现在勾选 HPA 'LBA/Mb' 时会立即换算数值（以前得拖动滑块才行）。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 曾有零星投诉说 4.72 版在某些电脑上不能和 IDE 硬盘一起工作。可能是命令发送方式改变所致，但也有可能是"罪魁祸首"是 Setup 选项卡上勾选的 'Only non-destructive functions'（它的作用在 4.72 版中也改变了）。我没能亲眼见到这个故障。但为防万一，我恢复了 DFP_SEND_DRIVE_COMMAND 方法，同时保留了较新的 IOCTL_ATA_PASS_THROUGH。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 应论坛请求实现了"美国梦"：大数字输入/输出字段增加了千位分隔显示功能。例如这样：1'953'525'167。该功能可在 Setup 选项卡上关闭——"Thousand separator" 复选框。vcr40.ini 文件中出现了 Separator char 键，其后在引号中可以指定分隔符：点、撇号或空格。有一个字段因空间不足没有加分隔符。等 "Victoria" 换到新界面后——到处都会有的。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 在获取 EXT 通行证的流程中加入了 Power-Up In Standby feature set device spin-up 命令。这样就可以启动并测试禁用了主轴预转的硬盘，例如某些录像机上的硬盘。\par
+\pard\li284\fi-284\sa200\sl276\slmult1\fs22 · 从 4.73 版开始，程序发布时不再对 exe 文件加壳（据 IT 人士说，某些杀毒软件会对此报毒），因此文件大小约为 2 MB（以前约 700 KB）。这很正常，对工作质量没有任何影响。\par
+\pard\sa200\sl276\slmult1\fs22 \b ! 修复了其他小错误，并对算法做了小幅改动。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\sa200\sl276\slmult1\fs22 4.72 版新功能（2019年1月15日）：\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 通过 API 的表面扫描增加了 Refresh 功能——发现慢速区域时就地对同一位置读写。以前程序里只有响应读取错误的代码。现在它按用户设定或自动设定的超时工作。如果把超时设成 "never"——所有块都会被重写。PIO 模式下的 Restore 功能予以保留。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 增加了对 Windows 图形主题的支持。不再是 Win95 风格——而是您喜爱的主题。只好稍微改了界面——去掉边框，换成面板。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 在 Windows 7 及更高系统中实现了通过 API 使用 AAM。现在在新系统上确实可以调节 HDD 噪音水平了，只要硬盘支持。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 在 Windows 7 及更高版本中，IBM/HGST HDD 的超级 SMART 可以使用了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 增加了对 Toshiba 3.5" HDD 超级 SMART 的支持。目前只在 HDWD120 型号上验证过，但在 DT01、MG0、MD0、MC0 等型号上也应该能用。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 可以指定带盘符的日志路径了。例如，程序可以从虚拟"急救"磁盘启动，而把日志放在可靠的地方。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 无需管理员权限就能测试可移动存储设备（USB 和 CD/DVD）——把它们当逻辑磁盘选就行。目前只在 Windows 7 下验证成功。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 \i · 支持在没有管理员权限的情况下以 PIO 工作——前提当然是 porttalk.sys 驱动已经装好，而且权限检查被强制关闭。为此 vcr40.ini 里有个隐藏键 AdminRightsIgnore。\i0 \par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 可以在 API 设备列表里把逻辑卷选作研究对象。为此要在 Setup 选项卡上取消 "Ignore HDD" 复选框。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 ·  API 存储设备的通行证增加了"逻辑通行证"。这是介于硬件和软件之间的东西。取消 Setup 选项卡上的 "Ignore HDD" 复选框即可激活该选项。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 非 ATA 设备的通行证中增加了介质描述符。以便在异常情况下获得更客观的数据。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 加了个按钮，一键把当前扇区复制成表面扫描的起始扇区。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 反向"快速"扫描已适配 SSD。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !消除了一个遗留缺陷："快速"扫描时最后一个块显示的速度只有图形速度的 1/2。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !消除一个遗留缺陷：表面扫描期间获取 SMART（或通行证）时，决定网格矩形颜色的时序会被重置。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 借助更完善的插值算法，改善了"完整"图表在小范围下的外观。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 日志下拉菜单里加了"把 [数字] 设为起始/结束 LBA"项。数字取自光标悬停的那一行。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 表面扫描图表里也加了同样的菜单。数字取自鼠标指针所在的图表坐标。这样就可以迅速定出缺陷区域的边界，方便后续下手修复。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 增加了在表面扫描前关闭 HDD 重新校准的选项（Setup 选项卡上的 "Recall HDD before Scan" 复选框）。HDD 要是在起始地址一带就有缺陷，这功能可能用得上。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 让程序在某些内置不可卸 SSD 的笔记本上也能在 Windows 10 下正常工作了。问题在于：程序带着默认启用的写入功能启动时，Windows 有时不让扫描表面。现在取消 "Only non-destructive functions" 复选框，会在句柄层面彻底关掉写入。诚然，这么一通向存储设备发命令也会歇菜，完整通行证也就别想了。但再怎么着也比啥都没有强 :)\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !修复了扫描速度高得离谱的磁盘时的"溢出错误"（比如 Verify 在某些 SSD 上只是被蹩脚地模拟，这才有了 2000 MB/s 以上的虚假速度）\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !修复了一个错误：停止反向表面扫描时，当前 LBA 指示器会显示 0。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · Tests 选项卡上的 Grid 复选框现在不再记忆到设置了。之前有人抱怨——用户忘了勾回去，事后又纳闷熟悉的"矩形"怎么没了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 顶部面板拆了时钟，序列号区域加宽了，区域之间加了分隔条。这是在为搬迁到更现代的自适应界面做准备。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 动画改成了高亮活动进程所在的选项卡书脊。不喜欢的话——我改回原样。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !修复了空读卡器上尝试随机读取时的除零错误。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !终于修掉了一个可恶的故障：API 磁盘列表的最后一项不滚动根本点不着\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 支持给虚拟和非标准存储设备设置不同于 256 扇区的块大小。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 编译时关掉了优化，好少出故障。文件因此大了一点，但稳定性上去了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 碰到一本 PocketBook 301 电子书，切到读卡器模式时交回空通行证，而且一声不吭。事后在 "Victoria" 里加了这种情况的检查，并把通行证换成 Windows 功能，好歹能显示个大小、也能测测内置和外置内存。说不定这也能改善与其他非标准存储设备的配合。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 碰上个 RockChip 平台的 Jagga Boom 播放器。2018 年的程序版本没一个能跟它处——卡死还被弹出来。原来这家伙烦的是通过 USB 访问完整通行证。只好改了功能枚举的算法。可这么一改，电子书又不能正常识别了 :) 只好再加个复选框，在新旧两条获取大小的命令之间切。它在 Setup 里现在叫 "Don't get SCSI 25h"，就摆在被删掉的 "Dont get drive type" 复选框的老位置。结果——默认情况下播放器和书都能用。但书显示的大小是错的——得为它在 Setup 里勾上。为避免麻烦，这复选框不做记忆。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 屏幕截图现在归到单独的 SCR 文件夹，盘符可以在 Setup 里指定，默认就建在程序目录下。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 应论坛网友 http://forum.ru-board.com 的要求，又添了 2 种表面扫描收尾方式：  "Save screenshot"——扫描结束时把 Test 选项卡截成 PNG 图。"3 SS+Shutdown"——扫描结束时截 Tests、Smart、Standard 三个选项卡的图，然后关电脑。\par
+\pard\li284\sa200\sl276\slmult1\fs22 有人让在 SSD 通行证里显示累计写入量。不少 SSD 的 SMART 里都有属性 241，视型号而定，它放的可能是已写入扇区数，也可能是 GB 数。已经针对这些 SSD 类型做了自动判断：Adata、Corsair、Datex、Intel、Kingston、Lite-on、LMT、OCZ Vector、OCZ Vertex 3、OCZ Vertex 2、OCZ Vertex450、Plextor、PNY、Samsung、SanDisk、Transcend 2.5、WD。对那些自动判错了方法的存储设备（程序会吐出大得或小得没边的数），vcr40.ini 文件里留了手动开关：  [EXT PSP Button] Total WR method=0\par
+\pard\li284\sa200\sl276\slmult1\fs22 0——按 SSD 系列/型号自动判断。1——无视型号，按 GB 解释。2——按扇区解释。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 机械检测方法（Seek / Verify / Read）不再记忆到设置里。改成获取通行证时自动挑最好的方法，当前会话内保留手动控制。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 表面扫描区域里的垂直滚动条实验性地撤了。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \b 4.71b SSD 版新功能（2018年12月12日）：\b0 \par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 加了截图功能——快捷键 CTRL+S。可执行文件为此大了 37 KB。建议拿精简版 Windows PE 测测兼容性——万一要额外系统库呢？\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 加了检测磁盘有没有 PCIe 接口的功能（PCIe to SATA 桥接的 SSD）。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 加了存储设备规格检测。结果显示在通行证窗口下方。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 通行证里加了单独一行 SSD 功能，Sanitize 和 Crypto Scramble 就在其中。Trim 也挪到了这行。其实功能还多着，只是还没想好怎么摆才合理。这些功能不是 SSD 独有，现代 HDD 上也可能有。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · HEX 编辑器加了右键菜单，可以切换字体大小。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · !修复了一个错误：OCZ Vertex SSD 上扫描时块大小一直是 256 扇区。这正是这次加更的原因。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 补充了 F1 帮助。更新空档期的最新消息会发在 hdd.by 网站上\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 试着把窗体右下角那个看着就没用的 API 设备号切换开关撤了。谁要是不习惯，我再加回来。12 年来我一次都没用过。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 界面为 XP 和 7 做了点小适配，窗体右缘好像好看了点。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 帮助里的垂直滚动条撤了，它有毛病。滚动可以用鼠标滚轮和 PageUp/PageDown。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · porttalk.sys 驱动的安装算法改了。现在会先看 Windows 系统文件夹里有没有驱动，没有就在 32 位系统上装。驱动错误的日志输出重新过了遍，多余的删了。结果——PIO 模式保证能在 x32 上开箱即用，不用用户再折腾。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 4.7 版不发布，免得让人看着联想到 4.47。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \b 4.69b 版新功能（2018年12月2日）：\b0 \par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 加了表面快速测试（跟 HD Tune 一样）。现在两三分钟就能对存储设备有个印象。相应地，原来的 Start 按钮下面加了新按钮 QUICK，Start 按钮缩小了些，改名 Scan。为了知道跑的是哪个测试——按钮下面加了扫描模式指示器。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 随机读取现在不光到点停——Grid 没勾上的时候，图画完也停。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 应要求，把 PC 喇叭当声音指示器的功能加回来了。跟以前一样，只在 x86 上好使。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 操作执行期间，用户误关程序这事儿被堵上了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 现在日志里不光记 BAD 扇区号，还记它前面那段磁盘容量。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 扫描结束时，日志里还会记上最后一个块的地址。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 给 SSD 添了新的 SMART 属性。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 通行证里加了 SATA3 和未来的 SATA4 检测。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 修复了一个错误：API 模式下校验大容量存储设备时，图上会出现一个 2TB 为倍数的台阶（已改用现代 16 字节 SCSI 命令，它没有 >32 位寻址的限制）。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 反向和随机表面扫描时的图表显示修好并完善了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 扫描图表在各模式下显示和行为上的诸多不合逻辑之处消除了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 修复了一个错误：有时光盘的扇区大小会判错，害得扇区读不进 HEX 查看器，还报 "Error #57"\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 2048 扇区块现在从 400MB 起自动设置（以前是 1TB 起）\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 从文件加载图表时的表现改进了：会显示测试边界，鼠标也正常了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 典型场景：在某块存储设备上试完块大小——忘了把 Test 选项卡上的 "Auto block Size" 复选框手动勾回去。换块盘就可能出岔子。现在一换盘，这项就自动回到 "Auto"。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · F8 呼出的 HEX 查看器，字体调大了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 扫描指示做了改进。我试着用计时器让它均匀、不受存储设备速度影响。同时它现在应该更少拖系统后腿，顺带提高测试速度和精度。可这是头一回，难免有没做到位的地方，以后再补。折腾这些为啥？扫描速度上限准备放到 >3000 MB/s（眼下——总共才 655 MB/s），算法里可能的瓶颈也在一点点清。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · PIO 模式下测表面时——会自动取消导航按钮旁的 "Reset HDD" 复选框，不然 ATA 协议会崩，HDD 的应答还会莫名卡顿。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 有人要求 SMART 列宽恢复成不自动刷新的老样子。现在按 "Get SMART" 按钮会刷新列，按另一个按钮——F9——则保持不刷。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 右边灰面板的颜色调得更中性了。这是暂时的。说不定过阵子我就会把界面拢成一个风格。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 通行证和日志的颜色调淡了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 代码优化过了，可执行文件小了点。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 帮助系统从 .html 换成了 RTF 格式。应该能好看点，也不用再迁就 IE 浏览器版本了。\par
+\pard\li284\fi-142\sa200\sl276\slmult1\fs22 · 程序附带的文本文件现在也是 RTF。别用 MS Word 打开编辑——会胀大好几倍！请用 MS WordPad。\par
+\pard\sa200\sl276\slmult1\fs22 ---\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b 更早版本的程序有啥新鲜玩意？答案请在官网能下载到的旧版本存档里找。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 --\par
+\pard\sa200\sl276\slmult1\fs22 Sergei Kazansky, 2021。\par
+\pard\sa200\sl276\slmult1\fs22 程序官方网站：https://hdd.by\par
+}

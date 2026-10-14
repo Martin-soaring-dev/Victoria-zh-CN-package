@@ -1,0 +1,262 @@
+{\rtf1\ansi\ansicpg936\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset134 Microsoft YaHei;}}{\colortbl ;\red0\green176\blue80;\red0\green0\blue255;\red0\green77\blue187;\red255\green0\blue0;}\viewkind4\uc1\pard\sa200\sl276\slmult1\f0\fs22\lang2052 \pard\qc\sa200\sl276\slmult1\cf1 \fs44 Victoria 5.37 HDD/SSD\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 存储设备测试程序\b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 更多详情 - 见网站 hdd.by\par
+\pard\qc\sa200\sl276\slmult1\fs22 Twitter: https://twitter.com/Disktester\par
+\pard\qc\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs24 \b 程序用途\b0 \par
+\pard\fi568\sa200\sl276\slmult1\fs22 免费程序 "Victoria" 用于测试、测量 HDD、SSD、Flash 存储设备的特性并提供维修保养，支持 IDE、SATA、USB、SAS、SCSI、PCIe 等接口。其可能的应用领域：\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 日常监控磁盘状态、测量速度、查看存储设备的 SMART 参数和错误日志。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 收集 SMART 统计信息并绘制属性变化曲线；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 计算机"硬件"的实验室测试、撰写评测报告；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 维修 PC 和存储设备，在维修店和销售机构中作为入厂/出厂检测平台使用；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 解决存储设备的一些问题：缺陷、噪音、密码；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不可恢复地擦除信息（例如在出售存储设备之前）。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 \b 程序可在两种模式下工作：\b0 \par
+\pard\fi284\sa200\sl276\slmult1\fs22 API 模式（通过 Windows 软件接口工作）。它允许直接访问任何磁盘（包括系统磁盘），而不影响 Windows 的运行。API 模式允许测试系统中安装的所有 HDD、CD、SSD、FDD、Flash 磁盘，无论接口是 SCSI、SAS、PCI-e、USB 还是 FireWire，以及某些数据加密程序创建的虚拟容器磁盘。\par
+\pard\fi284\sa200\sl276\slmult1\fs22 自 5.20 版起，程序通过专门协议支持 PCIe 总线上的 NVMe SSD，可查看 SMART 属性和通行证。\par
+\pard\fi284\sa200\sl276\slmult1\fs22 PIO 模式：仅供专业人士使用。此模式允许绕过 Windows，直接通过 I/O 端口访问 IDE/SATA 存储设备。它只能在 32 位系统上工作。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs28 \b 系统要求\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · CPU 不低于 Intel Pentium III，建议 P4 2 GHz 以上。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 操作系统 Windows 2000/XP 32 位（9x 下仅 4.xx 版本可运行，且只能通过端口工作，性能明显更差）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · NVMe 驱动程序，或 Windows 10（用于支持 NVMe 存储设备）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 内存 64MB 或更高；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · SVGA 显卡（图形模式不低于 800x600，建议 1280x1024）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 键盘、鼠标；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 无限制使用需要管理员权限。\par
+\pard\fi284\sa200\sl276\slmult1\fs22 程序在 Windows 7、8、10 下运行良好。但在这些系统中，由于 Windows 7-10 对磁盘直接访问的过度防护，修复缺陷的功能会受到一定限制。在 Windows x64 上程序仍可使用，但 PIO 模式除外。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs32 程序主要功能\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 读取磁盘通行证，并在屏幕上显示存储设备的技术信息（型号、序列号、版本、特性等）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 显示 WD HDD 的技术细节：制造日期、RAM 芯片容量、缓存实际大小、物理盘片数、磁头数、区域数和服务道数。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 显示 Seagate HDD 的工艺代号。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 检测是否存在 SMR 技术（目前为实验性）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 识别"调包"存储设备：例如贴有 HGST 标签的 WD（这是厂商营销行为的产物，目前为实验性）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在 Windows 设备列表中将物理存储设备与逻辑磁盘对应。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 管理 HDD 的噪音级别（如支持）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 管理节能功能（APM），包括 WD 存储设备的专用模式。程序允许为 WD 存储设备设置磁头停泊时间间隔并保存到 HDD 的非易失存储器中——前提是该 WD HDD 不锁定技术命令（主要是 2018 年之前出厂的存储设备）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 查看存储设备的 S.M.A.R.T. 参数，通过伪图形刻度和状态寄存器快速评估其状态，包括查看 IBM/HITACHI/Toshiba 3.5" 存储设备的隐藏属性；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 以曲线图形式查看 SMART 参数值随时间的变化（自 5.25 版起）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 运行 HDD 内置的 SMART 测试并监控其执行过程；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 查看、分析和研究存储设备的 SMART 日志并支持写入，包括现代的 48 位日志（自 4.75 版起）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 通过 Device Configuration Overlay（一种特殊的非易失存储器，可在其中关闭不需要的功能、启用先前关闭的功能或更改可用容量）管理存储设备配置。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 通过校验、读取和写入测试磁盘表面，并统计和显示缺陷块地址；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 按区域列表进行测试，按列表编号扇区。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测量线性、非线性和随机读取 HDD 的速度，支持任意块大小；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 绘制快速和完整的速度曲线；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测试存储设备在收发数据时是否存在失真——DDD 和 W-R-V 选项；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测量 HDD 主轴转速；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在任何读取测试中，通过从备用区重映射扇区（remap）来隐藏表面缺陷；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测量硬盘性能（基准测试功能）：\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测量 HDD 磁头定位速度和扇区访问时间（随机读/写）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 查看扇区内容，并可编辑、写入/保存到文件；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 清除磁盘（或其部分区域）中的信息——即"低层格式化"；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 管理安全选项：为 USB HDD/SSD 设置密码、清除密码；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\cf4 \fs22 · 可停止和启动 USB/SAS/SCSI HDD 的主轴电机，使 SSD 进入休眠模式；注意！停止 SCSI/SAS 存储设备后，其部分功能将失效。要继续使用，需手动按 Recall 按钮启动 HDD。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · HDD 磁头定位测试（类似于操作系统在高负载下的行为），用于检测 PC 磁盘子系统的可靠性和热稳定性；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 查看 HDD 逻辑分区信息并显示分区边界（支持 MBR 和 GPT 格式）；\par
+\pard\sa200\sl276\slmult1\fs22 注意。某些 USB 存储设备不受程序支持。这种情况下可以进行表面测试，但无法查看 SMART 参数和完整通行证。\par
+\pard\sa200\sl276\slmult1\fs22 注意！在 Seagate FreeAgent 附带的 "USB 3.0 Data cable" USB 控制器以及 WD Passport 上，使用密码可能会出现问题。不建议用它们做实验！详情：https://hdd.by/мост-вредитель-или-очередной-прикол-seagate/\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 此外，通过端口（PIO 模式）工作时：\par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 需要 32 位（x86）Windows。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 检测系统中安装的 ATA/SATA 控制器及其端口地址（目前仅在 BIOS 中关闭 ACHI 模式时可用）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 发送 HDD/SSD 软复位命令；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 缺陷检测：通过各种测试分析 HDD 表面状态，统计和显示不稳定区域，指出每个不稳定扇区的精确地址，并自动将其记录到文本文件中；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 使用 Host Protected Area：更改和恢复磁盘的物理容量；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 指示 HDD 的工作模式、寄存器内容，并通过指示"灯"可视化错误代码（自 4.75 版起在 API 模式下也有此功能，但是隐藏的）；\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 安全选项管理（HDD/SSD 密码操作）增加了通过存储设备安全系统快速擦除信息的功能（Security Erase）。\par
+\pard\sa200\sl276\slmult1\fs22 值得一提的是，随着程序的发展，其在 API 模式下的功能逐渐接近 PIO 模式，同时保留两种方法的优点。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf4 \fs22 \b 无管理员权限时的限制：\b0 \par
+\pard\fi426\sa200\sl276\slmult1\fs22 程序不应在没有 Windows 管理员权限的情况下使用。但是，自 4.72 版起，程序中实验性地引入了一种尝试在没有管理员权限的情况下工作的模式。此时将无法使用任何物理磁盘（U 盘和 CD-ROM 除外），但仍可通过 USB 使用逻辑磁盘。在没有管理员权限的情况下工作时，不会在本地文件夹中保存工作日志，也不会在 ini 文件中保存设置。\par
+\pard\fi426\sa200\sl276\slmult1\fs22 在 Windows 10 下使用 NVMe 存储设备时，即使没有管理员权限，查看通行证和 SMART 大概率也能工作，但测试将无法进行。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 \b 程序界面由以下部分组成：\b0 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 \b 选项卡/按钮\b0 \par
+\pard\sa200\sl276\slmult1\fs22 Info / 信息：选择存储设备，获取其通行证和功能列表。\par
+\pard\sa200\sl276\slmult1\fs22 SMART：用于存储设备自监控、分析和报告技术（Self Monitoring, Analysis and Reporting Technology）的一切功能。\par
+\pard\sa200\sl276\slmult1\fs22 SMART Logs / 日志：处理存储设备的 SMART 日志。\par
+\pard\sa200\sl276\slmult1\fs22 Test & Repair / 测试：测试存储设备的所有用途——以不同模式读取和写入。以便捷的形式显示结果。\par
+\pard\sa200\sl276\slmult1\fs22 Disk editor / 编辑器：扇区和分区表的查看器/编辑器。\par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 \b 菜单项：\b0 \par
+\pard\sa200\sl276\slmult1\fs22 菜单中包含许多可能对处理存储设备有用的工具：测试、密码操作、关闭不需要的功能、自动化、语言选择和设置。菜单右侧是缓冲区查看项——它实时显示被测存储设备的内容。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs28 \b 程序设置\b0 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs28 \b 菜单项 Settings / 设置\b0 \par
+\pard\sa200\sl276\slmult1\fs22 如果默认设置因某种原因不合适，可能需要进行以下操作。如果您只是不小心弄乱了设置，请关闭程序，用发行版中的 Victoria.ini 文件替换，然后重新启动程序。默认设置将恢复。\par
+\pard\sa200\sl276\slmult1\fs22 \b 设置选项卡 / 常规：\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 容量按 1000 / 1024 计算——从普通的兆/吉/太字节（1024 的倍数）切换到商用单位（1000 的倍数）。适合那些希望显示的容量数字与存储设备标签和 Windows 中一致的人。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 启用 API 模式时打开通行证——程序从 PIO 模式切换到 API 模式时自动打开 Info 选项卡，省去每次手动在列表中选择所需存储设备的麻烦。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 最小化到托盘并自动轮询 SMART——勾选此项后，托盘中会出现"Victoria"图标，关闭窗口时程序将以不可见模式继续工作。当前进程将继续执行，如果没有进程，则按定时器轮询 SMART。要完全停止程序，需右键单击托盘图标。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs24 · 启动时最小化到托盘——用于随 Windows 一起启动程序。需要自己（手动）将其添加到 Windows 启动项。操作方法在"更新内容"中有说明。该功能目前运行得还不太完善。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs24 · 声音——配置声音提示。\par
+\pard\sa200\sl276\slmult1\fs22 启用声音——开启所有声音提示。主要是对需要留意的罕见事件的警告。\par
+\pard\sa200\sl276\slmult1\fs22 提示铃。表面扫描结束时发出。\par
+\pard\sa200\sl276\slmult1\fs22 夜间模式。午夜过后所有声音自动关闭，早上 7 点自动恢复。\par
+\pard\sa200\sl276\slmult1\fs22 使用 PC 蜂鸣器——用 PC 的内置蜂鸣器代替 Windows 系统声音。仅在 32 位系统上有效。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 禁用危险功能——仅限非破坏性功能。关闭程序中会对被测 HDD 进行写入的功能，以保护其中的信息不被擦除。但更好的办法是在任何操作前先思考。该功能运行不可靠，几乎不能防范用户失误，严重过时，完全不建议使用。注意！自 4.72 版起，该开关还会停止向存储设备发送 ATA 命令，从而导致功能受限（将显示不完整的通行证，也无法获取 SMART）。原因是为了改善与某些 Windows 10 版本的兼容性。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 测试期间禁止进入睡眠模式——该功能向 Windows 发送重置睡眠和屏保计时器的命令，使系统无法入睡，从而避免破坏存储设备表面测试结果。操作结束后，会向 Windows 发送恢复原状的命令。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 日志设置：事件日志的设置。\par
+\pard\fi284\sa200\sl276\slmult1\fs22 在程序运行过程中，用户的所有操作、消息、错误等都会自动写入文本文件——工作日志。在此节中可以指定文件名、启用/禁用日志以及清除日志。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · NUL 或盘符：程序用于存放日志的磁盘路径，同时用于保存通行证文件和其他从存储设备中提取的信息。如果指定 NUL，则使用可执行文件所在的当前目录。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · Logs dir：所指定磁盘上的目录路径。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 保存公共日志到文件——记录公共工作日志。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 更新目录创建日期——每次写入日志时，将日志文件夹的创建日期改为当前日期。便于排序和快速查找最近检测的存储设备。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 每个存储设备单独日志——为每个存储设备建立单独的文件夹，每个文件夹中生成自己的日志。同时保留公共日志，在单独日志尚未创建时（例如程序尚未识别出存储设备，不知道需要创建命名日志），记录会重复写入公共日志。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 清除文件——清除公共日志。不影响单独日志。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 设置选项卡 / API：\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · USB 存储设备自动检测——如果勾选此项，连接外部 USB 存储设备时程序会报告发现新设备，并将其添加到 Info 选项卡的存储设备列表中。但这可能会造成干扰，因此做成可关闭的。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 更新设备列表时不重置设置——如果 API 设备列表已更新（重新连接 USB 存储设备时也会更新），可以不改变工作环境。勾选此项后，程序在更新 API 设备列表和重新连接 USB 存储设备时的行为会发生以下变化：表面扫描中的"校验-读取-写入"切换开关不会重置为"读取"；不清除 SMART 表和日志列表；不初始化 HEX 编辑器；不将 End LBA 恢复到最大值。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 旧 USB / SATL 模式——将 16 字节 SCSI 命令替换为 12 字节命令，以兼容某些旧式 USB 存储设备。用于解决程序在某些 USB 桥上卡死且检测不到 HDD 的问题。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在物理设备列表中显示逻辑磁盘。如果勾选此项，程序会尝试查明哪些逻辑磁盘属于哪些物理磁盘，并在单独的列中显示它们的盘符。如果文件系统损坏，可能出现工作异常，因此该功能可关闭。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · "只读"处理程序，用于解决 Windows 10 上的问题。有些电脑上 Victoria 完全无法工作，一个磁盘都检测不到。问题出在 Windows 10 的某些特定设置上，勾选此项可能帮助绕过。但这是最后的手段，它不会恢复完整功能，只是让某些测试能够运行。在正常的系统上勾选此项将不可避免地导致无法向存储设备发送 ATA 命令及其他限制。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 使用 SCT-Ext 命令——在普通的 Smart Command Transport 命令和扩展命令（B0 / 3F）之间选择。对大多数存储设备而言这没有特别意义——它们要么支持两套命令，要么完全没有 SCT。此选项面向专业人士。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不通过 USB 桥请求 ATA 寄存器。关闭通过 Windows 的 SCSI-ATA-Layer（SATL）请求寄存器的过程。可解决在某些非标准工作的 USB 桥（一些老旧劣质的国产 USB 硬盘盒）上的卡死和响应缓慢问题。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在 API 模式下启用 ATA 寄存器指示器。允许在屏幕上像 PIO 模式那样显示 HDD 寄存器的指示灯。这应该会影响程序 ini 文件中的 API ATA Indicators=0 键，但目前该复选框处于禁用状态且不起作用。如果您清楚了解其用途，可以通过该键直接启用指示器。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 使用 SCT 命令进行重映射。最初，重映射和擦除块是通过存储设备常规的方式——写扇区命令——完成的。但在 Windows API 中，从 Windows 7 开始引入了过度的防病毒保护，对存储设备已标记区域的写入被阻止。要成功完成修复工作，必须先关闭存储设备上的 MBR，然后才能重映射，否则会报"拒绝访问"错误（参见问答 https://hdd.by/victoria5_faq/）。SCT（Smart Command Transport）标准中存在额外的写命令，它们在 Windows 7+ 中不会被阻止，在某些情况下使用它们可以不禁用 MBR 完成重映射。遗憾的是，并非所有存储设备都支持 SCT，也并非所有存储设备都允许用这套命令替换缺陷。因此请自行尝试。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 设置选项卡 / PIO\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 双击 PCI 设备列表时获取通行证。在 PCI 扫描区域双击即可获取 HDD 通行证。这是应懒人们的需求做的。可以避免点击获取 HDD 通行证的按钮，只需单击选中的 PCI 控制器行即可。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不在程序设置中记住主板 IDE 控制器的主通道。可以避免误选主通道（系统 HDD 通常挂在其上），从而降低通过端口意外操作系统硬盘的风险。仅在 PIO 下工作。对于那些主通道空闲的人，可以关闭此选项。在现代 PC 上此设置基本无用，因为它们没有 IDE 存储设备，往往也没有 IDE 通道。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · BUSY、Ready、DREQ——协议超时。专业人士可以根据被测 HDD 的行为自行设置。\par
+\pard\sa200\sl276\slmult1\fs22 BUSY Timeout——调节程序发出命令后等待 HDD 响应的时间（毫秒）。\par
+\pard\sa200\sl276\slmult1\fs22 Ready Timeout——调节程序在发出命令前等待 HDD 就绪的时间（毫秒）。\par
+\pard\sa200\sl276\slmult1\fs22 DREQ Timeout——调节程序在发出数据交换命令（读取或写入）后，等待 HDD 准备好送出/接收数据块的时间（毫秒）。\par
+\pard\sa200\sl276\slmult1\fs22 ATA 定时器——选择用于在 PIO 协议中测量时间间隔的定时器类型。它测量 HDD 等待的基本时间间隔（DREQ、BUSY）。使用 RDTSC 的禁忌是在多处理器系统上会严重出问题。这种情况下应使用 G.T.C.。如果没有问题，则 RDTSC 更优。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b \b0 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 设置选项卡 / 通行证\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 \b · 发送自诊断命令——检查存储设备是否正常。向它发送一条命令，在部分损坏的 HDD 和 SSD 上会返回错误，此时通行证中会显示 *Failed 字样。\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 \b · 禁用"通行证"按钮的附加命令——勾选此项后，按"通行证"按钮时不会向存储设备发送多余的命令。附加命令包括：通过 SCT 查询温度、检测 SMR 技术、识别"调包"存储设备。所有其他对存储设备的请求由"EXT"按钮发起。这就是上面描述的全部内容，以及接口检查、实际容量（不含 HPA）、为确定某些参数而请求 SMART 等（不同版本中列表可能变化）。该选项专用于专业工作和对部分损坏存储设备的诊断——当附加命令不受欢迎或会导致设备卡死时。\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 按 EXT 通行证按钮时的操作——该节负责在 PIO 模式下通过 EXT 按钮获取存储设备通行证时执行的操作，EXT 按钮位于 Standard 选项卡上主 Passport 按钮旁边。自 4.72 版起，该按钮也出现在 API 模式中，其功能逐步扩展（见附件文件 whatsnew.rtf）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 检测实际容量——查询不含 HPA 的存储设备实际容量。如果不一致，实际容量会显示在通行证中。仅在 PIO 下工作。API 使用另一条始终有效且无法关闭的命令。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 获取活动状态——查询主轴当前旋转状态，并在通行证中显示 "Active" 或 "Standby"。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 执行接口测试——诊断存储设备的缓存缓冲区和接口。向缓冲区写入一个数字，然后读出并比较。如果不一致，会将其按位分解并显示在通行证中。此功能编写于 IDE 硬盘时代，用于检测断掉的插针或断开的排线，在 SATA 上可能已无用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 查询 SSD 的累计写入量。许多 SSD 的 SMART 中都有属性 241，根据型号不同，它可能包含已写入的扇区数或 GB 数。已实现对所需值的自动识别，支持以下 SSD 类型：Adata、Corsair、Datex、Intel、Kingston、Lite-on、LMT、OCZ Vector、OCZ Vertex 3、OCZ Vertex 2、OCZ Vertex450、Plextor、PNY、Samsung、SanDisk、Transcend 2.5、WD。对于那些自动识别错误的存储设备（程序显示的值异常大或异常小），可在 Victoria.ini 文件中手动切换：[EXT PSP Button] Total WR method=0\par
+\pard\li284\sa200\sl276\slmult1\fs22 0 - 按 SSD 系列/型号自动识别。1 - 忽略型号并按 GB 解释。2 - 按扇区解释。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 仅使用 SCSI 命令获取通行证。仅与 API 有关。问题是某些 PCI 控制器（特别是 Silicon Image 3112）存在缺陷。它们在两个通道上都显示通行证相同的 HDD（实际上它们是不同的）。而且在 SCSI 模拟模式下不会出现此缺陷。仅当遇到问题（通行证不正确、尝试打开设备时卡死或设备消失）时才值得启用此选项，因为普通（非 SCSI）存储设备的 SCSI 通行证是不完整的。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不使用 SCSI 25h 命令——不使用过时的 SCSI GetCapacity 25h 命令，它在 PocketBook 301 电子书上会出问题。但遗憾的是，只有这条命令能被 RockChip 播放器正常识别，因此设置了此开关。不记住设置，默认应关闭。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不使用 SCSI 9Eh 命令——不使用较新的 SCSI GetCapacity 9Eh 命令。同样，如果 Victoria 在识别某个设备时出问题或报告错误容量，可以尝试勾选此项。如果同时勾选两项，将使用另一种获取容量的命令，程序显示的容量可能比实际略小。这几乎不影响使用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 显示逻辑磁盘。在 API 设备列表中显示逻辑磁盘。如果勾选此项，除了物理磁盘外还会显示逻辑分区（以盘符形式）。有时需要这样做，例如弄清某个盘符对应哪个物理磁盘。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 忽略 FDD——不在 API 设备列表中显示软盘驱动器。驱动器非常慢，识别时会发出噪音，这并不总是可取的。勾选此项将排除对它们的访问。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 忽略 HDD——不在 API 设备列表中显示硬盘的分区。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 显示 CHS 参数。如果取消勾选，通行证中不显示柱面数、扇区数和磁头数——这些属于严重过时的数据，在现代存储设备上仅为兼容性而保留。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 将通行证数据保存到 .BIN 文件。将磁盘的通行证以存储设备直接返回的形式（未经程序解释）保存到以磁盘命名的目录中。供后续工程研究使用。\par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 设置选项卡 / 测试\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 交换表面测试中的前进/后退跳转按钮。有些人喜欢按钮交换，这纯属个人偏好。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 每次测试前测量 CPU 频率——每次启动测试时检查处理器时钟频率，并重新配置定时器。建议在笔记本上启用，因为它们在不同负载下会改变处理器频率。当 RDTSC 定时器被禁用时，此选项无意义。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 允许中断程序的内部循环。在测试会卡死并阻止程序响应按键的故障存储设备时非常有用。如果勾选此项，程序对"停止"键的响应会更迅速。但是，中断内部循环也会打断 PIO 模式下的 ATA 协议，这并非总是有益。如果只打算测试正常的磁盘，则应取消勾选。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 每次操作前刷新 LBA——获取通行证时，始终将第一个和最后一个 LBA 重新填入扫描和 seek 的输入框。这些框中以前的数字会被清除。如果取消勾选，程序仅在更换 HDD 时自动执行此操作（这是该程序标志性的算法，能大大方便用户）。不建议无故勾选。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 每次进入循环扫描后复位——扫描循环时，在每个新循环前向 HDD 发送软复位。用于防止循环步长较小时磁盘缓存的影响。建议始终保持开启——问题会更少。仅在 PIO 下工作。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 按钮不闪烁——关闭表面扫描中"暂停"字样周围的闪烁边框以及其他不必要的动画。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 根据存储设备调整时序——在表面测试时使用程序智能调整时序。这些时序取决于 UDMA 模式、容量、型号等。其效果是测试时"方块"地图更加均匀。建议启用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 按住时自动重复跳转键——按住这些按钮时启用扫描跳转的自动重复。旁边的输入框中可以设置重复间隔（毫秒）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 长读取尝试次数——仅适用于 4.54 及以后版本的 PIO 模式。指定在"Restore"模式下"长读取"读取多少个扇区。对现代存储设备无关紧要，通过 SCT 的长读取模式尚未实现。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 扫描前执行重新校准——表面测试前将硬盘从睡眠模式唤醒并将磁头定位到"零磁道"。如果启用，测试的初始段看起来更精确。在起始部分损坏的存储设备以及 SSD 上可能需要关闭。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 出现致命错误时停止扫描。致命错误包括以下类型："设备不再可用"（04h、37h）、"拒绝访问"（05h）。它们通常意味着存储设备因超时或完全失效而与操作系统断开，此时继续"测试"已无意义。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 为紧凑排列重新计算地图单元格宽度。通过按当前窗口大小计算最佳单元格尺寸来改善扫描地图的外观（右边缘和下边缘空白更少），但不利于"实时"拉伸窗体。只影响外观。\par
+\pard\fi284\sa200\sl276\slmult1\fs22 "计时方式"：程序中定时器类型的设置。用于消除可能的故障，并使程序在不同"硬件"和操作系统上行为稳定。\par
+\pard\sa200\sl276\slmult1\fs22 "通用定时器"一节。这是与表面扫描、seek 等相关的定时器，主要在 API 模式下使用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · RDTSC——这是中央处理器的时钟计数器。从 Pentium I 开始，所有处理器都支持一条命令，返回自开机以来经过的时钟周期数。这允许用它精确测量时间间隔。但遗憾的是，在某些多核处理器系统上，此方法可能工作异常。表现为虚幻的卡顿、停止、结果输出错误等"故障"。如果存在这些现象，程序允许使用定时器的替代方案——\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · G.T.C.（Get Tick Count 的缩写），它是 Windows 操作系统的组件之一。此定时器精度略低于 RDTSC，但其能力在大多数情况下足以正常测试 HDD。如果在多核计算机上使用"Victoria"，建议两种定时器都试一下，如果没有故障——选择 RDTSC。在单核系统上 RDTSC 模式更优。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 "扫描：仅 PIO"一节。此定时器仅在 PIO 模式下的测试（Scan、Seek）中测量时间间隔。在 API 中它不起任何作用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · G.T.C. 与前面的例子不同，此开关的实质另有区别。除了标准的 RDTSC/G.T.C.，这里还可以选择替代方案——\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · MMTimer（"多媒体定时器"的缩写）。它的特点是对处理器的负载较低，测试 HDD 时不会消耗其资源。相比之下，在 RDTSC/G.T.C. 模式下，单核系统的负载可达 99%，而 MMTimer 模式下仅 10-30%（如果关闭 Grid，则为 0-4%）。建议尽可能始终使用 MMTimer。仅在某些版本的 Windows 9x 上可能有问题。\par
+\pard\sa200\sl276\slmult1\fs22 注意。"Common RTC"开关优先于"Scan: PIO only"中的 RDTSC/G.T.C. 定时器模式。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 \b 设置选项卡 / SMART\b0 \par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 打开时自动获取 SMART——打开 SMART 工具时，程序自动从存储设备请求 SMART 信息。否则需要用户点击按钮或表头来获取。仅在 API 下工作，因为在 PIO 中此行为不合情理。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 自动获取 SMART 日志目录。类似，但用于 SMART 日志。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 不请求 SMART 状态。健康状态是内置在硬盘中的功能。它控制属性表下方 BAD/GOOD 灯的亮灭。遗憾的是，并非所有存储设备都会报告问题，这会误导缺乏经验的用户。因此几乎所有诊断程序的作者都放弃了它。Victoria 程序中也提供了关闭选项。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 始终尝试 IBM 超级 SMART。IBM、HGST 和许多 Toshiba 3.5" 存储设备支持扩展属性集，在普通条件下对用户隐藏。Victoria 程序将它们切换到工艺模式，并显示隐藏的属性。该命令无害，可以在其他厂商的 HDD 上尝试。此复选框就是为此而设。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 将 RAW 值拆分为单独的数字。见官方网站的问答 #17。https://hdd.by/victoria5_faq/\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 将属性保存到 .BIN 文件。将磁盘的 SMART 以存储设备直接返回的形式（未经程序解释）保存到以磁盘命名的目录中。供后续工程研究使用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 从 NVMe 命名空间获取 SMART。PCI Express 标准的 SSD 可能在一个物理设备中包含多个独立的虚拟存储设备。勾选此项允许尝试访问第一个虚拟命名空间而非物理设备。有时在无法获取 NVMe 的 SMART 时管用。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 维护 SMART 数据库。勾选此项后，程序会定期对当前 SMART 状态进行快照并存放到单独的数据库文件中。之后该数据库用于绘制 SMART 属性随时间变化的曲线。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 数据库更新间隔。按钮可以任意频繁地点击，但数据库的容量不是无限的。此项设置向数据库中写入 SMART 快照的最小间隔。推荐值为 15 分钟至 23 小时 59 分钟。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\fs22 设置选项卡 / 界面\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 千位分隔符。将数字显示为每三位用点或撇号分隔的形式（例如 2'657'743）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在列表中启用线条。在 SMART、扫描、日志等中显示辅助网格。纯粹是美观选项。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 主菜单下方的磁盘参数栏。控制该界面元素的显示。关闭该栏后，信息会转移到窗口标题中。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 自动将焦点设置到列表。实现单手操作，免去为了用滚轮滚动列表而额外点击列表的麻烦。但可能因为输入数字时需要光标保持不动而令人烦恼。因此做成可关闭的。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 窗口颜色。列表中的背景色。为了更好地让程序适应个人品味。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 提示显示时长。影响鼠标悬停后提示的显示时间。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 通行证 / SMART 中的字体。字体大小和粗细。用于让界面适应不同的 Windows 桌面设置和用户偏好。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 在截图文件名中包含型号名称。可以让截图文件名更短（只有创建时间和选项卡名称）或更完整（存储设备型号名称、序列号、日期和时间、选项卡）。\par
+\pard\li426\fi-284\sa200\sl276\slmult1\fs22 · 窗体尺寸变化时的行为。允许选择最舒适的方案。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs28 \b 隐藏设置。.ini 文件的键。\b0 \par
+\pard\sa200\sl276\slmult1\fs22 除了可见的设置项外，Victoria 程序中还预设了一些隐藏参数。它们位于 Victoria.ini 文件中，以 [Setup] 节中的键的形式存在：\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b \b0 \par
+\pard\sa200\sl276\slmult1\fs22 Write=1\par
+\pard\sa200\sl276\slmult1\fs22 此键控制对启动 Victoria 程序的磁盘进行写入的许可。如果将 1 改为 0，程序将不会写入任何文件。即使勾选了 Setup 面板中的相应复选框，也不会保存工作日志、创建日志文件夹、写入通行证和 SMART 的二进制文件。用途何在？用于程序在 Live CD/DVD 光盘及其他写保护介质（包括无管理员权限工作）上的正确运行——在这些介质上，任何写入尝试除了输入/输出错误外不会带来任何好处。\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b \b0 \par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b Autoinstalldriver=0\b0 \par
+\pard\sa200\sl276\slmult1\fs22 此键允许（1）或禁止（0）每次启动程序时安装 porttalk.sys 驱动程序。如果在 32 位系统上激活 PIO 模式有困难，请设为 1。如果驱动程序已安装，且每次启动时重复安装会造成多余的问题或无用的提示，请设为 0。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b AdminRightsIgnore=0\b0 \par
+\pard\sa200\sl276\slmult1\fs22 此键强制关闭管理员权限检查。此键用于域授权下的服务器版 Windows，在那里自动判断权限可能工作不正常。普通用户不需要它。\par
+\pard\sa200\sl276\slmult1\fs22 AdminRightsIgnore=0 权限检查已启用（程序默认行为）。\par
+\pard\sa200\sl276\slmult1\fs22 AdminRightsIgnore=1 权限检查已关闭（在实际没有权限的情况下，程序会向日志输出几条错误消息，其功能将受限）。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\li284\fi-284\sa200\sl276\slmult1\cf3 \fs22 \b \i ThirdPathSCR='磁盘路径'\b0 \i0 \par
+\pard\sa200\sl276\slmult1\fs22 自 4.75 版起有效。\par
+\pard\sa200\sl276\slmult1\fs22 此键指定使用备用目录路径保存截图。路径可以任意，以 '' 结尾。如果字符串为空或没有此键——路径取自程序设置。如果路径不正确——文件将无法写入，并会在日志中提醒。\par
+\pard\sa200\sl276\slmult1\fs22 API ATA Indicators=1 该键在 API 模式下启用 ATA 设备的寄存器指示灯。目前为实验性实现，工作得不够好。供喜欢实验的人使用。默认关闭。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\li284\sa200\sl276\slmult1\fs22 \b [EXT PSP Button] 节\b0 \par
+\pard\sa200\sl276\slmult1\cf3 \fs22 Total WR method=0\par
+\pard\sa200\sl276\slmult1\fs22 此键位于 [EXT PSP Button] 节中，用于切换通行证中 SSD 累计写入量的显示模式。由于不同厂商的 SMART 属性 241 包含不同的数值，预设了对其解释的手动设置：\par
+\pard\sa200\sl276\slmult1\fs22 0 - 按 SSD 系列/型号自动识别。1 - 忽略型号并按 GB 解释。2 - 按扇区解释。\par
+\pard\sa200\sl276\slmult1\fs22 \b \i \b0 \i0 \par
+\pard\sa200\sl276\slmult1\fs22 \b \i [Scan] 节\b0 \i0 \par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b \i Write signatures=0\b0 \i0 \par
+\pard\sa200\sl276\slmult1\fs22 该键允许禁用扫描中"Erase if error"过程对被擦除块的填充。默认会向存储设备的扇区写入当前扇区编号和日期/时间（便于日后查找落入问题位置的文件）。\par
+\pard\sa200\sl276\slmult1\cf3 \fs22 \b \i Write signatures=1\b0 \i0 \par
+\pard\sa200\sl276\slmult1\fs22 自 4.75 版起有效。\par
+\pard\sa200\sl276\slmult1\fs22 该键在"Erase if error"时为块的扇区填充内容中添加 LBA 编号（字符串形式 LBA xxxxxxxx）以及时间标记（"Block erased 当前日期 当前时间"）。Write signatures=0 关闭该功能。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs28 \b 程序"热键"列表\b0 \par
+\pard\li426\sa200\sl276\slmult1\fs22 F1 - 调用帮助。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F2 - 获取存储设备通行证。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F3 - 存储设备软复位（仅 PIO）。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F4 - 表面扫描（完整）。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F5 - HDD 机械/访问时间测试。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F6 - 获取分区表（支持 MBR 和 GPT）。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F7 - 在单独窗口中打开日志的最后几行。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F8 - 测试期间查看磁盘内容。\par
+\pard\li426\sa200\sl276\slmult1\fs22 F9 - 查看 SMART 信息（不自动调整表格错位的列）。\par
+\pard\li426\sa200\sl276\slmult1\fs22 CTRL + S - 对当前窗口截图并保存为文件到日志目录。可以任意多次截图，文件将自动编号。\par
+\pard\li426\sa200\sl276\slmult1\fs22 CTRL + A - 在"编辑器"选项卡上允许选中扇区内容，以便后续按 CTRL + C 复制。\par
+\pard\li426\sa200\sl276\slmult1\fs22 CTRL + D - 在帮助系统中显示捐赠页面。\par
+\pard\li426\sa200\sl276\slmult1\fs22 CTRL + X - 紧急退出程序。\par
+\pard\li426\sa200\sl276\slmult1\fs22 \par
+\pard\li426\sa200\sl276\slmult1\fs22 ALT + S - 停止 HDD 电机轴 / 使 SSD 休眠。绑定到 Sleep 按钮。\par
+\pard\li426\sa200\sl276\slmult1\fs22 ALT + C - HDD 重新校准 / SSD 唤醒。绑定到 Recall 按钮。\par
+\pard\li426\sa200\sl276\slmult1\fs22 方向键 - 表面扫描期间的快速导航，以及 AAM 控制（焦点需位于相应元素上）。\par
+\pard\li426\sa200\sl276\slmult1\fs22 ESC - 取消/中断当前操作（与 Break All 按钮重复）\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\qc\sa200\sl276\slmult1\cf3 \fs22 \b 术语和缩写表\b0 \par
+\pard\sa200\sl276\slmult1\fs22 API - Application Programming Interface。Windows 内置的访问任意存储设备的手段。\par
+\pard\sa200\sl276\slmult1\fs22 PIO - Programmed Input-Output（编程输入/输出）。指直接通过端口访问被测存储设备（通常是连接到主板的内置存储设备）的模式，数据交换有 PC 中央处理器参与。\par
+\pard\sa200\sl276\slmult1\fs22 SMART - Self Monitoring, Analysis and Reporting Technology。内置于 HDD 或 SSD 控制器中的自诊断系统。\par
+\pard\sa200\sl276\slmult1\fs22 LBA - Logical Block Address。这是存储设备上扇区的编号。一个 LBA 通常等于 512、2048 或 4096 字节。"扇区"和"LBA"通常是同义词。\par
+\pard\sa200\sl276\slmult1\fs22 MBR - Master Boot Record。写入第 0 个 LBA（扇区）的结构，其中包含磁盘分区表。目前已过时，被功能类似的更现代的结构——GPT——所取代。\par
+\pard\sa200\sl276\slmult1\fs22 GPT - GUID Partition Table。现代的跨平台磁盘分区表标准。最多支持 128 个分区，容量几乎不受限制。\par
+\pard\sa200\sl276\slmult1\fs22 SCSI - Small Computer System Interface。在本文中指存储设备与计算机之间数据传输的软件接口标准。内置于 Windows 中，用于通过各种物理接口与外部存储设备交互。\par
+\pard\sa200\sl276\slmult1\fs22 ATA - Advanced Technology Attachment。与内置存储设备交互的软件接口。\par
+\pard\sa200\sl276\slmult1\fs22 AAM - Automatic Acoustic Management。内置于硬盘的噪音级别管理系统。它可以通过恶化访问时间来降低磁头定位的"噪音"，反之亦然。近年来支持该技术的 HDD 型号数量呈减少趋势。\par
+\pard\sa200\sl276\slmult1\fs22 \par
+\pard\sa200\sl276\slmult1\fs22 ----\par
+\pard\sa200\sl276\slmult1\fs22 Sergei Kazansky，程序"Victoria"的作者。2021。\par
+\pard\sa200\sl276\slmult1\fs22 官方网站、文章、问答、新版本：https://hdd.by\par
+}
