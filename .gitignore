@@ -82,3 +82,8 @@ junit.xml
 
 # 参考文件
 reference/
+
+# 构建产物（发布时由 CI 重新生成，勿提交）
+installer/Victoria-zhCN-files.zip
+__pycache__/
+*.pyc

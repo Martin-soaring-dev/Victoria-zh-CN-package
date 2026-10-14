@@ -1,2 +1,16 @@
-# Auto detect text files and perform LF normalization
+# 默认让 git 自动判定文本文件并做 LF 归一化
 * text=auto
+
+# 交付物原样存储（-text）：BOM + 纯 CRLF 是硬性要求，
+# 且 GitHub raw 下载 / Download ZIP 拿到的就是 blob 字节，必须是正确行尾
+*.lng   -text
+*.rtf   -text
+*.cmd   -text
+*.bat   -text
+*.ps1   -text
+
+# 脚本与文档保持 LF
+*.py    text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.tsv   text eol=lf
