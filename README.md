@@ -29,7 +29,7 @@
 1. 从 [Releases](../../releases) 下载 `Install-ZhCN.cmd`
 2. 把它放进 **Victoria 程序根目录**——也就是和 `Victoria.exe` 同一个文件夹
 3. 双击运行。程序会先检测同目录有没有 `Victoria.exe`：
-   - **有** → 自动解压并覆盖安装 `LNG\Chinese.lng` 和 `Help\Chinese\*.rtf`
+   - **有** → 自动解压并覆盖安装 `LNG\Chinese.lng` 和 `Help\Chinese\*.rtf`，并自动把语言切换为中文
    - **没有** → 提示你把文件放对位置，不做任何操作
 
 ### 方式二：手动安装
@@ -38,8 +38,8 @@
 
 ### 安装之后
 
-1. **重启 Victoria**
-2. 菜单 **Language → Chinese** 切换中文（新加入 `.lng` 后 ini 的语言索引会移位，需重选一次）
+1. **重启 Victoria** 即为中文界面（安装程序已自动写好 ini 的语言设置）
+2. 若语言未生效：菜单 **Language → Chinese** 手动选一次
 3. 按 **F1** 即是中文帮助；菜单「新增功能？」为中文更新日志
 
 ## ⚠️ 已知限制

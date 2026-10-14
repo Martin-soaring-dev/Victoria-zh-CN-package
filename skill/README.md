@@ -3,7 +3,8 @@
 本目录存放本项目的**可复用关键技能**（进仓库，团队共享）。每个技能一个 `.md`，描述"怎么做、怎么验"。
 
 ## 索引
-- `lng-localization.md`：Victoria `.lng` 语言文件的阅读、翻译、校验流程（编码、转义、键名一致性、`Victoria.ini` 接通）
+- `lng-localization.md`：Victoria `.lng` 语言文件的阅读、翻译、校验流程（编码、转义、键名一致性、`Victoria.ini` 语言索引、按钮宽度约束、术语表）
+- `release-packaging.md`：一键安装程序构建（GBK 自解压 .cmd、语言自动切换）、交付物自检、GitHub 发布自动打包
 
 ## 约定
 - 技能文件保持"可执行"：含步骤 + 验证方式
