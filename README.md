@@ -24,21 +24,30 @@
 
 ## 📦 安装
 
+**从 [Releases](../../releases) 下载唯一的一个包 `Victoria-zhCN-package.zip`**，解压到 Victoria 程序根目录（与 `Victoria.exe` 同级）。包内就三样东西：
+
+```
+Victoria-zhCN-package.zip
+├── Install-ZhCN.cmd      ← 一键安装程序（双击即装）
+├── 安装说明.txt
+├── LNG\Chinese.lng       ← 中文语言包
+└── Help\Chinese\*.rtf    ← 中文帮助
+```
+
 ### 方式一：一键安装（推荐）
 
-1. 从 [Releases](../../releases) 下载 `Install-ZhCN.cmd`
-2. 把它放进 **Victoria 程序根目录**——也就是和 `Victoria.exe` 同一个文件夹
-3. 双击运行。程序会先检测同目录有没有 `Victoria.exe`：
-   - **有** → 自动解压并覆盖安装 `LNG\Chinese.lng` 和 `Help\Chinese\*.rtf`，并自动把语言切换为中文
-   - **没有** → 提示你把文件放对位置，不做任何操作
+双击 `Install-ZhCN.cmd`。它先检测同目录有没有 `Victoria.exe`：
 
-### 方式二：手动安装
+- **有** → 自动覆盖安装 `LNG\Chinese.lng` 与 `Help\Chinese\*.rtf`，并把语言切换为中文
+- **没有** → 提示你把包解压到 Victoria 根目录，不做任何操作
 
-下载 Release 里的 `Victoria-zhCN-files.zip`，解压到 Victoria 根目录（目录结构已按 `LNG\`、`Help\Chinese\` 组织好）；或从仓库直接取 `Chinese.lng` 和 `Help/Chinese/` 分别放进对应文件夹。
+### 方式二：解压即用
+
+包内结构就是 Victoria 的安装结构（`LNG\`、`Help\Chinese\`）。解压到程序根目录后直接重启 Victoria，菜单 **Language → Chinese** 选一次即可——不需要运行任何程序。
 
 ### 安装之后
 
-1. **重启 Victoria** 即为中文界面（安装程序已自动写好 ini 的语言设置）
+1. **重启 Victoria** 即为中文界面（用一键安装的话 ini 已自动写好）
 2. 若语言未生效：菜单 **Language → Chinese** 手动选一次
 3. 按 **F1** 即是中文帮助；菜单「新增功能？」为中文更新日志
 
@@ -55,7 +64,7 @@
 |---|---|
 | `Chinese.lng` | 中文语言包（交付物，5.23 + 5.37 合并版） |
 | `Help/Chinese/` | 中文帮助（`vichlp.rtf` 使用手册 / `whatsnew.rtf` 更新日志 / `dcomemo.rtf` DCO 说明） |
-| `installer/` | 一键安装程序的构建脚本与产物（`Install-ZhCN.cmd`） |
+| `installer/` | 构建脚本与产物（`Install-ZhCN.cmd` 单文件安装程序；发布时另打包为 `Victoria-zhCN-package.zip`） |
 | `.github/workflows/` | CI 校验 + 发布自动打包 |
 | `skill/`、`soul.md` | 汉化工艺与项目维护文档 |
 | `reference/` | 本地开发用（官方基线、翻译表、RTF 管线），**按设计不进库** |
@@ -64,10 +73,10 @@
 
 ```bash
 python installer/validate_pack.py     # 自检交付物（CI 同款，提交前跑一遍）
-python installer/build_installer.py   # 构建 Install-ZhCN.cmd + 手动安装 zip（含 payload 回读自检）
+python installer/build_installer.py   # 构建 Install-ZhCN.cmd + 唯一发布包 Victoria-zhCN-package.zip（含回读自检）
 ```
 
-- **发布流程**：打 tag → GitHub 建 Release 并发布 → `release.yml` 自动构建上述两个文件并上传为 Release 资产，无需本地打包。
+- **发布流程**：打 tag → GitHub 建 Release 并发布 → `release.yml` 自动构建并上传**唯一一个**发布包，无需本地打包。
 - **CI**：每次 push / PR 跑 `ci.yml`，自检 + 试构建安装程序。
 - 语言包的完整重建管线（翻译表 → `Chinese.lng`）与帮助文档管线依赖本地 `reference/`，不在库内。
 

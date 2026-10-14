@@ -30,7 +30,36 @@ import zipfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 OUT = os.path.join(HERE, "Install-ZhCN.cmd")
-ZIP_OUT = os.path.join(HERE, "Victoria-zhCN-files.zip")  # 手动安装用（不打进自解压程序）
+# 唯一发布包：含安装程序 + 4 个语言文件（按 Victoria 目录结构）+ 说明
+PKG_OUT = os.path.join(HERE, "Victoria-zhCN-package.zip")
+
+PKG_README = """Victoria 简体中文语言包 —— 安装说明
+========================================
+
+本包内含：
+  Install-ZhCN.cmd        一键安装程序（推荐）
+  LNG\\Chinese.lng         中文语言包
+  Help\\Chinese\\*.rtf     中文帮助（F1 / 更新日志 / DCO 说明）
+
+【安装方法一：一键安装（推荐）】
+  1. 把本包整个解压到 Victoria 程序根目录
+     （也就是和 Victoria.exe 同一个文件夹）
+  2. 双击 Install-ZhCN.cmd
+  3. 程序会自动检测 Victoria.exe、覆盖安装文件，并把语言切换为中文
+  4. 重启 Victoria 即为中文界面；按 F1 是中文帮助
+
+【安装方法二：手动】
+  本包解压后目录结构就是安装结构（LNG\\、Help\\Chinese\\），
+  已放进 Victoria 根目录的话，直接重启 Victoria，
+  菜单 Language -> Chinese 选一次即可。
+
+【注意】
+  · 安装前建议先关闭 Victoria（否则语言设置会被它退出时覆写）
+  · 卸载：删掉 LNG\\Chinese.lng 和 Help\\Chinese\\ 即可恢复原状
+  · 本包只做本地化；Write / Erase / Remap 会破坏数据，动手前务必先备份
+
+非官方粉丝翻译，与 Victoria 作者及 hdd.by 无隶属关系。
+"""
 
 # (仓库内源文件, zip 内路径)
 PAYLOAD = [
@@ -139,11 +168,22 @@ def build():
     print(f"  安装程序总大小: {len(blob)} 字节")
     print("  自检通过: payload 解码后与源文件逐字节一致")
 
-    # 手动安装用的普通 zip（与自解压程序内容一致）
-    with zipfile.ZipFile(ZIP_OUT, "w", zipfile.ZIP_DEFLATED) as z:
+    # ---- 单一发布包：用户只下载这一个 zip ----
+    # 结构 = 可直接解压到 Victoria 根目录（LNG\ + Help\Chinese\），并附一键安装程序
+    with zipfile.ZipFile(PKG_OUT, "w", zipfile.ZIP_DEFLATED) as z:
         for src, arc in PAYLOAD:
             z.writestr(arc, check_payload_file(src, arc))
-    print(f"OK {ZIP_OUT} ({os.path.getsize(ZIP_OUT)} 字节，手动安装用)")
+        z.writestr("Install-ZhCN.cmd", blob)
+        z.writestr("安装说明.txt", PKG_README.replace("\n", "\r\n").encode("utf-8-sig"))
+    # 自检：包内必须齐备
+    with zipfile.ZipFile(PKG_OUT) as z:
+        names = set(z.namelist())
+        need = {arc for _s, arc in PAYLOAD} | {"Install-ZhCN.cmd", "安装说明.txt"}
+        if not need <= names:
+            raise SystemExit(f"[自检失败] 发布包缺少: {need - names}")
+        if z.read("Install-ZhCN.cmd") != blob:
+            raise SystemExit("[自检失败] 发布包内的安装程序与生成的不一致")
+    print(f"OK {PKG_OUT} ({os.path.getsize(PKG_OUT)} 字节，唯一发布包：安装程序 + 4 个语言文件 + 说明)")
 
 
 if __name__ == "__main__":

@@ -23,13 +23,11 @@ jobs:
       - name: 自检交付物
         run: python installer/validate_pack.py
 
-      - name: 构建安装程序与手动安装包
+      - name: 构建发布包
         run: python installer/build_installer.py
 
-      - name: 上传资产到 Release
+      - name: 上传唯一发布包到 Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            installer/Install-ZhCN.cmd
-            installer/Victoria-zhCN-files.zip
+          files: installer/Victoria-zhCN-package.zip
           fail_on_unmatched_files: true
