@@ -28,6 +28,14 @@ import subprocess
 import sys
 import zipfile
 
+# CI（GitHub Windows runner 控制台是 cp1252）下中文输出会抛 UnicodeEncodeError，
+# 统一把标准输出改成 UTF-8。
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PAYLOAD_ZIP = os.path.join(HERE, "payload.zip")

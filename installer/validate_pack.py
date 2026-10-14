@@ -11,6 +11,13 @@ import os
 import re
 import sys
 
+# CI（GitHub Windows runner 控制台是 cp1252）下中文输出会抛 UnicodeEncodeError
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LNG = os.path.join(ROOT, "Chinese.lng")
 RTF_DIR = os.path.join(ROOT, "Help", "Chinese")
