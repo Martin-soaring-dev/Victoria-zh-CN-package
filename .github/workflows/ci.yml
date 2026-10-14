@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: 校验交付物并试构建
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 自检 Chinese.lng 与中文帮助
+        run: python installer/validate_pack.py
+
+      - name: 试构建自解压安装程序（含 payload 回读自检）
+        run: python installer/build_installer.py

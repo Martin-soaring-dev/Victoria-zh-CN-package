@@ -1,0 +1,35 @@
+name: Release
+
+# 发布新 Release 后自动打包：构建自解压安装程序 + 手动安装 zip，
+# 并作为资产上传到该 Release。
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write   # 上传 Release 资产需要
+
+jobs:
+  package:
+    name: 打包并上传资产
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 自检交付物
+        run: python installer/validate_pack.py
+
+      - name: 构建安装程序与手动安装包
+        run: python installer/build_installer.py
+
+      - name: 上传资产到 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            installer/Install-ZhCN.cmd
+            installer/Victoria-zhCN-files.zip
+          fail_on_unmatched_files: true
