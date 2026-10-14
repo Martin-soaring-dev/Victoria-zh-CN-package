@@ -12,6 +12,26 @@
 #   调试命令：git check-ignore -v <path>
 # ============================================================
 
+# ---------- 系统与编辑器 ----------
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JetBrains 系列（IDEA / WebStorm / PyCharm ...）
+.idea/
+
+# VS Code：忽略整个目录，但保留团队共享的配置
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
 # ---------- 日志与临时文件 ----------
 *.log
 logs/
@@ -22,7 +42,6 @@ tmp/
 temp/
 *.tmp
 .cache/
-
 
 # ---------- 环境变量（切勿提交密钥！）----------
 .env
@@ -55,8 +74,8 @@ junit.xml
 
 # ---------- 本项目需要排除的 ----------
 
-# Agent产物目录
-.workbuddy/
+# Agent产物目录（实际为 .memory/）
+.memory/
 
 # 参考文件
-.reference/
+reference/
