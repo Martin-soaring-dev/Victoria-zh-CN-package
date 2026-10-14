@@ -4,12 +4,12 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/github/v/release/Martin-soaring-dev/Victoria-zh-CN-package?style=for-the-badge&label=release" alt="release">
-<img src="https://img.shields.io/badge/platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="platform Windows">
-<img src="https://img.shields.io/badge/Victoria-5.23%20/%205.37-blue?style=for-the-badge" alt="Victoria 5.23 / 5.37">
-<img src="https://img.shields.io/badge/%E6%B1%89%E5%8C%96-635%20%E9%94%AE%20100%25-success?style=for-the-badge" alt="汉化 635 键 100%">
-<img src="https://img.shields.io/badge/F1%20%E5%B8%AE%E5%8A%A9-%E4%B8%AD%E6%96%87-success?style=for-the-badge" alt="F1 帮助 中文">
-<img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="license MIT">
+<img src="https://img.shields.io/github/v/release/Martin-soaring-dev/Victoria-zh-CN-package?style=flat&label=release" alt="release">
+<img src="https://img.shields.io/badge/platform-Windows-0078D6?style=flat&logo=windows&logoColor=white" alt="platform Windows">
+<img src="https://img.shields.io/badge/Victoria-5.23%20/%205.37-blue?style=flat" alt="Victoria 5.23 / 5.37">
+<img src="https://img.shields.io/badge/%E6%B1%89%E5%8C%96-635%20%E9%94%AE%20100%25-success?style=flat" alt="汉化 635 键 100%">
+<img src="https://img.shields.io/badge/F1%20%E5%B8%AE%E5%8A%A9-%E4%B8%AD%E6%96%87-success?style=flat" alt="F1 帮助 中文">
+<img src="https://img.shields.io/badge/license-MIT-green?style=flat" alt="license MIT">
 <img src="https://github.com/Martin-soaring-dev/Victoria-zh-CN-package/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI">
 
 </div>
