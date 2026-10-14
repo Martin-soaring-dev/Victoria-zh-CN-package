@@ -77,5 +77,8 @@ junit.xml
 # Agent产物目录（实际为 .memory/）
 .memory/
 
+# WorkBuddy 私有工作记忆（含本地 agent 记忆，禁止进库）
+.workbuddy/
+
 # 参考文件
 reference/
