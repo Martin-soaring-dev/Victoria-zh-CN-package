@@ -20,7 +20,7 @@ echo  %ROOT%
 echo.
 
 set "ZHCN_SELF=%~f0"
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $lines=[IO.File]::ReadAllLines($env:ZHCN_SELF) | Where-Object { $_.StartsWith('::PAYLOAD=') }; if(-not $lines){throw 'payload missing'}; $b64=($lines | ForEach-Object { $_.Substring(10) }) -join ''; $zip=Join-Path $env:TEMP 'victoria-zhcn.zip'; [IO.File]::WriteAllBytes($zip,[Convert]::FromBase64String($b64)); $dir=Join-Path $env:TEMP 'victoria-zhcn-x'; if(Test-Path $dir){Remove-Item $dir -Recurse -Force}; Expand-Archive -LiteralPath $zip -DestinationPath $dir -Force; $root=Split-Path -Parent $env:ZHCN_SELF; New-Item -ItemType Directory -Force -Path (Join-Path $root 'LNG') | Out-Null; New-Item -ItemType Directory -Force -Path (Join-Path $root 'Help\Chinese') | Out-Null; Copy-Item -LiteralPath (Join-Path $dir 'LNG\Chinese.lng') -Destination (Join-Path $root 'LNG\Chinese.lng') -Force; Get-ChildItem -LiteralPath (Join-Path $dir 'Help\Chinese') -Filter *.rtf | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $root 'Help\Chinese') -Force }; Remove-Item $zip -Force -ErrorAction SilentlyContinue; Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue; Write-Host '  OK'; $ini=Join-Path $root 'Victoria.ini'; if(-not (Test-Path -LiteralPath $ini)){ Write-Host '  未找到 ini，首次运行后默认使用第一个语言文件' } else { $lngs=@(Get-ChildItem -LiteralPath (Join-Path $root 'LNG') -Filter *.lng -ErrorAction SilentlyContinue | Sort-Object Name); if($lngs.Count -gt 0 -and $lngs[0].Name -ine 'Chinese.lng'){ Write-Host '  跳过自动切语言，请手动选择' } else { try { $enc=[Text.Encoding]::GetEncoding(28591); $lat=$enc.GetString([IO.File]::ReadAllBytes($ini)); if($lat -match '(?m)^Language=\d'){ $new=[regex]::Replace($lat,'(?m)^Language=\d+',{param($m)'Language=1'},1) } else { $new=[regex]::Replace($lat,'(?m)^\[Setup\]',{param($m)$m.Value+[char]13+[char]10+'Language=1'},1) }; if($new -ne $lat){ [IO.File]::WriteAllBytes($ini,$enc.GetBytes($new)); Write-Host '  已自动切换语言为中文' } else { Write-Host '  语言已是中文' } } catch { Write-Host '  自动切语言失败，不影响安装，请手动选择' } } }"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $lines=[IO.File]::ReadAllLines($env:ZHCN_SELF) | Where-Object { $_.StartsWith('::PAYLOAD=') }; if(-not $lines){throw 'payload missing'}; $b64=($lines | ForEach-Object { $_.Substring(10) }) -join ''; $zip=Join-Path $env:TEMP 'victoria-zhcn.zip'; [IO.File]::WriteAllBytes($zip,[Convert]::FromBase64String($b64)); $dir=Join-Path $env:TEMP 'victoria-zhcn-x'; if(Test-Path $dir){Remove-Item $dir -Recurse -Force}; Expand-Archive -LiteralPath $zip -DestinationPath $dir -Force; $root=Split-Path -Parent $env:ZHCN_SELF; New-Item -ItemType Directory -Force -Path (Join-Path $root 'LNG') | Out-Null; New-Item -ItemType Directory -Force -Path (Join-Path $root 'Help\Chinese') | Out-Null; Copy-Item -LiteralPath (Join-Path $dir 'LNG\Chinese.lng') -Destination (Join-Path $root 'LNG\Chinese.lng') -Force; Get-ChildItem -LiteralPath (Join-Path $dir 'Help\Chinese') -Filter *.rtf | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $root 'Help\Chinese') -Force }; Remove-Item $zip -Force -ErrorAction SilentlyContinue; Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue; Write-Host '  OK'; $ini=Join-Path $root 'Victoria.ini'; if(@(Get-Process -Name Victoria -ErrorAction SilentlyContinue).Count -gt 0){ Write-Host '  检测到 Victoria 正在运行，已跳过自动切语言（它退出时会覆写 ini）' } elseif(-not (Test-Path -LiteralPath $ini)){ Write-Host '  未找到 ini，首次运行后默认使用第一个语言文件' } else { $lngs=@(Get-ChildItem -LiteralPath (Join-Path $root 'LNG') -Filter *.lng -ErrorAction SilentlyContinue | Sort-Object Name); if($lngs.Count -gt 0 -and $lngs[0].Name -ine 'Chinese.lng'){ Write-Host '  跳过自动切语言，请手动选择' } else { try { $enc=[Text.Encoding]::GetEncoding(28591); $lat=$enc.GetString([IO.File]::ReadAllBytes($ini)); if($lat -match '(?m)^Language=\d'){ $new=[regex]::Replace($lat,'(?m)^Language=\d+',{param($m)'Language=1'},1) } else { $new=[regex]::Replace($lat,'(?m)^\[Setup\]',{param($m)$m.Value+[char]13+[char]10+'Language=1'},1) }; if($new -ne $lat){ [IO.File]::WriteAllBytes($ini,$enc.GetBytes($new)); Write-Host '  已自动切换语言为中文' } else { Write-Host '  语言已是中文' } } catch { Write-Host '  自动切语言失败，不影响安装，请手动选择' } } }"
 
 if errorlevel 1 (
     echo.
@@ -42,7 +42,7 @@ if defined PAUSE pause
 exit /b 0
 
 :: ===== 以下为内嵌 payload（构建产物，请勿手动编辑；重新生成：python installer/build_installer.py）=====
-::PAYLOAD=UEsDBBQAAAAIACchT12fS39vaTUAANOQAAAPAAAATE5HL0NoaW5lc2UubG5nxX1pU1tJtuD3iqj/kPFeTGO/ttls19IveiYEAsM0
+::PAYLOAD=UEsDBBQAAAAIAEEiT12fS39vaTUAANOQAAAPAAAATE5HL0NoaW5lc2UubG5nxX1pU1tJtuD3iqj/kPFeTGO/ttls19IveiYEAsM0
 ::PAYLOAD=WyPKfm/69QcZrm1NaWEk4aU+gW02AwaXMZjNGBsMXli8FJtYIuandOteSZ/qL8xZ8ubNvJJcPTMxMY6OanTz5H7y5Nnz18zpv4o/
 ::PAYLOAD=Je/einTfrEiJoBXtvRkRLYnucDTyk5UULeH4jb7wDUs0RqJW5ddf/au4bMWtZDht9Yhrd8WfKoOVLZUi1B2Ow9dzoqa2sqa6sra6
 ::PAYLOAD=5ntx6Q/VtX+ovoRVrljJVCQRFzWV1eLMlUh3OpGMhMWlygvfVoqai6K9Oy1qq2trzgqB0Lmt/uzxk+z+pjMznDvN5LcfizOhSKw3
@@ -225,7 +225,7 @@ exit /b 0
 ::PAYLOAD=tjJFBVubCUZ6HB7s4qsXm694fagbzaQktavc3PQBP+bwf/fIHLMg0MKN6/IQhGKXr9ffxAAJH7vBTG/2ZIkelCJPqWQi1tZnijf/
 ::PAYLOAD=ji9kFxZ2lXOnBqQkNGfxrYq5QILEvCpFRKKQNnyMZ95961iS1OcPQPQzFYNeP8ofHLjlRF+y25JXz195hhRHgbEfIHm0mQwcScLK
 ::PAYLOAD=yY0zXElXN37Cxn1fwlddE47piR52jXaBG4qS9vvCizEwNGZkAvhSiCpH7WmYUC5KlQI/y8SqqBbbi0LTvhAP+fVX/wtQSwMEFAAA
-::PAYLOAD=AAgAJyFPXc1hpOF9NQAASYsAABcAAABIZWxwL0NoaW5lc2UvdmljaGxwLnJ0Zr19+1MbZ5ru76fq/A9dOrVnqs4ezMU4dnZrfsB2
+::PAYLOAD=AAgAQSJPXc1hpOF9NQAASYsAABcAAABIZWxwL0NoaW5lc2UvdmljaGxwLnJ0Zr19+1MbZ5ru76fq/A9dOrVnqs4ezMU4dnZrfsB2
 ::PAYLOAD=JnFtPPExZDJ71lunFCzbVDB4Qc44OzV/jNSxEaDESOrWrdUIkNClhaRG3bSIgi9ggo0dOzZ2ABtIne/5vm5J+BaQMztVEyPp6+/6
 ::PAYLOAD=Xp/3/d7+65kB57nWM/a+wR76n+5L598/+N6Zs45z51rO9PVf7unuv3jJ7vzrmXP9fU7n573kj5Yz5/p6es+c675gHxh0OFsPtnMn
 ::PAYLOAD=e7oH+gf7zzm5f7V/5Oj557/97a9nuvt7+wfIE9w/nxlwnG05c37A4ehrPfzemc97LzuOtNR/20K/azt0qP7Lw4fpt61HDtNvya/1
@@ -408,7 +408,7 @@ exit /b 0
 ::PAYLOAD=htgaZmoSXu1tBMz3tF7khYA4GmsPUHG0Wk9Wkq7uFX3oAi12nP3S3tdNuLlG81yH02nvvnDR0eckPuyDeq5E97V57nUgIrObKOp6
 ::PAYLOAD=kciqbq6ju//yIP44ae+zn3ewcdhq2aU7683SwAMZc+GeO6vFFnwiXbeswwkBtZWq+eZJGx608d6QYHxbup2RXLy8nbw/QUv8ES8m
 ::PAYLOAD=pvxsZpjAC1Z2JuMBJfZz9rv0hrLXE99Toybyv73Rj2PgvKOH+xf7f9r7Br/4isF7tdRPlixEPPSWttY9zs9KZXG5C8m5KfJfRXjs
-::PAYLOAD=cqtTSMJ7+YWBrMO//X9QSwMEFAAAAAgAJyFPXZEpJCMBXQAAqOkAABkAAABIZWxwL0NoaW5lc2Uvd2hhdHNuZXcucnRmvL37cxNn
+::PAYLOAD=cqtTSMJ7+YWBrMO//X9QSwMEFAAAAAgAQSJPXZEpJCMBXQAAqOkAABkAAABIZWxwL0NoaW5lc2Uvd2hhdHNuZXcucnRmvL37cxNn
 ::PAYLOAD=tjb6+6k6/0OPdp3KN2cOvgGBzK7ZVQSSSb4JEzZmLnvv7Eo5IMDfEJvPNpnk7Np/jNQhCFsJaqlbt9bFuliXliW1pXbLKCRgQyDE
 ::PAYLOAD=MQSb2AbbqfM+71JLNrdIJnNSNYMldb/99ntZ61lrPWu9//XeyNjp3vcGhkYH+f+dPH/mtb2vvnfKfvp0z3tDwxcGTw5/eH5g7L/e
 ::PAYLOAD=Oz08NDb2wTn2R897p4cGz713+uTZgZFR+1jv3n3C0cGTI8Ojw6fHhH8beMs++M///d//9d7J4XPDI+wO4Z/fG7Gf6nnvzIjdPtR7
@@ -726,7 +726,7 @@ exit /b 0
 ::PAYLOAD=8lSzTy2g2CJl1FxpymlBTJ76n+M3bnAChxfGbteXFmTAGL6hZEHR3+ooIZn9V9nHmHU26ZtdXZgnmHtBwTwVYCSkMOUaTVSXmOwB
 ::PAYLOAD=B2ZnHDe/lTTI6DC53tO03DPmSl3vC6mgkpBegMkSGDiNG3QApzoVCFOhYWfI+CSZXloOEcDR0QPhF0XFkJ7imUNF2Kfh/F172UQw
 ::PAYLOAD=1CkM2+f7bV3brLZZFynvzi23PkbYoNuY6dKJcWNd0pTUiChwLoq5xoteL6Wd5k1a1pPHWC/dyLL2ULH+om/vLP6OlnlWlmPB9eDi
-::PAYLOAD=ytxab/OYHujv8CvCRmPuQQI9Fhr/ziXkH7DxCVBLAwQUAAAACAAnIU9dYk1dXPcCAAA+BwAAGAAAAEhlbHAvQ2hpbmVzZS9kY29t
+::PAYLOAD=ytxab/OYHujv8CvCRmPuQQI9Fhr/ziXkH7DxCVBLAwQUAAAACABBIk9dYk1dXPcCAAA+BwAAGAAAAEhlbHAvQ2hpbmVzZS9kY29t
 ::PAYLOAD=ZW1vLnJ0ZrVVXU/TYBS+N/E/vL/AdOVjGK6IxOAFMUFuTN6bfbTQWLa5FQ2S/ZhZxDGrstHOlbKhtOyLsJZ1lEkwuGSGKdEoGsAA
 ::PAYLOAD=iX3fgRJDwrjYTXNyzvOcc54nPe0kDHK0A7p8IQY/PIGRmx3d0EvRNAF9/nHG4x8LuLhJSPt9HOdm7YCAtI9hIe0ZdQVDFOfo6ASD
 ::PAYLOAD=jCfoD/lpDtx3DVBMbzg8CT1+1h+0GaAXBikvAUeCFOVzOLuhmx2neojzWQLnyK6u80mnE2cdPU6ctavnwURvGD5iqMcPGJ+3E457
@@ -737,8 +737,8 @@ exit /b 0
 ::PAYLOAD=+QjxSmLmJbL01K+nJVHP/3MR5TKrCGcsoZgXlD1UldJNvLmrCXkdRapiGrlD+70UcifJ19mDxYK2pdTeSEpV/Fr62R4vyrHVqHwC
 ::PAYLOAD=+m/dBfhs7w32DQ3zQrxq7Op5XOob7gPpF9k6Krdnh8omuq6mF8gnFFmvFuq8kFAqReOrJRpGtr5ylHi/ccBH357kd/5e42rUMKwp
 ::PAYLOAD=fsb+tuyVYu/S69tywlRXhbKS2i+eZD4o83OfcoftWfu2/TV/Yt9gci5d42eU2kbDkrGReE/BikvppC7tlGKW3J4FLkee/QpSx8mP
-::PAYLOAD=+pfc54UjMOr13nBPNKnhP1BLAQIUABQAAAAIACchT12fS39vaTUAANOQAAAPAAAAAAAAAAAAAACAAQAAAABMTkcvQ2hpbmVzZS5s
-::PAYLOAD=bmdQSwECFAAUAAAACAAnIU9dzWGk4X01AABJiwAAFwAAAAAAAAAAAAAAgAGWNQAASGVscC9DaGluZXNlL3ZpY2hscC5ydGZQSwEC
-::PAYLOAD=FAAUAAAACAAnIU9dkSkkIwFdAACo6QAAGQAAAAAAAAAAAAAAgAFIawAASGVscC9DaGluZXNlL3doYXRzbmV3LnJ0ZlBLAQIUABQA
-::PAYLOAD=AAAIACchT11iTV1c9wIAAD4HAAAYAAAAAAAAAAAAAACAAYDIAABIZWxwL0NoaW5lc2UvZGNvbWVtby5ydGZQSwUGAAAAAAQABAAP
+::PAYLOAD=+pfc54UjMOr13nBPNKnhP1BLAQIUABQAAAAIAEEiT12fS39vaTUAANOQAAAPAAAAAAAAAAAAAACAAQAAAABMTkcvQ2hpbmVzZS5s
+::PAYLOAD=bmdQSwECFAAUAAAACABBIk9dzWGk4X01AABJiwAAFwAAAAAAAAAAAAAAgAGWNQAASGVscC9DaGluZXNlL3ZpY2hscC5ydGZQSwEC
+::PAYLOAD=FAAUAAAACABBIk9dkSkkIwFdAACo6QAAGQAAAAAAAAAAAAAAgAFIawAASGVscC9DaGluZXNlL3doYXRzbmV3LnJ0ZlBLAQIUABQA
+::PAYLOAD=AAAIAEEiT11iTV1c9wIAAD4HAAAYAAAAAAAAAAAAAACAAYDIAABIZWxwL0NoaW5lc2UvZGNvbWVtby5ydGZQSwUGAAAAAAQABAAP
 ::PAYLOAD=AQAArcsAAAAA
