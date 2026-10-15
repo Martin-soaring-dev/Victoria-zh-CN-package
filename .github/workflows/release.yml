@@ -29,8 +29,8 @@ jobs:
       - name: 构建安装程序与发布包
         run: python installer/build_installer.py
 
-      - name: 上传唯一发布包到 Release
+      - name: 上传安装程序到 Release
         uses: softprops/action-gh-release@v2
         with:
-          files: installer/Victoria-zhCN-package.zip
+          files: installer/dist/Install-ZhCN.exe
           fail_on_unmatched_files: true

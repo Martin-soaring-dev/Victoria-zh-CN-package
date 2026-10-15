@@ -20,7 +20,9 @@
 产物：
   installer/payload.zip              内嵌 payload（LNG\\ + Help\\Chinese\\）
   installer/dist/Install-ZhCN.exe   单文件自解压安装程序（PyInstaller onefile）
-  installer/Victoria-zhCN-package.zip  唯一发布包（exe + 4 个语言文件 + 安装说明）
+  installer/Victoria-zhCN-package.zip  离线整合包（exe + 4 个语言文件 + 安装说明；本地/离线分发用）
+
+发布物是 installer/dist/Install-ZhCN.exe 本身——自解压单文件，Release 直接挂它。
 """
 import os
 import shutil
@@ -148,4 +150,4 @@ if __name__ == "__main__":
     make_payload()
     build_exe()
     make_package()
-    print("\n构建完成：把 installer/Victoria-zhCN-package.zip 作为 Release 资产发布即可。")
+    print("\n构建完成：发布物是 installer/dist/Install-ZhCN.exe（Release 直接挂这个单文件）。")

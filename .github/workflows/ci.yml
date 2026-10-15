@@ -41,6 +41,6 @@ jobs:
       - name: 留存构建产物（便于在 PR 上实测）
         uses: actions/upload-artifact@v4
         with:
-          name: Victoria-zhCN-package
-          path: installer/Victoria-zhCN-package.zip
+          name: Install-ZhCN
+          path: installer/dist/Install-ZhCN.exe
           retention-days: 7

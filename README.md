@@ -26,26 +26,16 @@
 
 ## 📦 安装
 
-**从 [Releases](../../releases) 下载唯一的一个包 `Victoria-zhCN-package.zip`**，解压到 Victoria 程序根目录（与 `Victoria.exe` 同级）。包内就这几样：
+**从 [Releases](../../releases) 下载 `Install-ZhCN.exe`**——就一个文件，语言包和中文帮助都打包在里面。
 
-```
-Victoria-zhCN-package.zip
-├── Install-ZhCN.exe      ← 自解压安装程序（双击即装）
-├── 安装说明.txt
-├── LNG\Chinese.lng       ← 中文语言包
-└── Help\Chinese\*.rtf    ← 中文帮助
-```
+把它放进 **Victoria 程序根目录**（与 `Victoria.exe` 同级），双击运行：
 
-### 方式一：一键安装（推荐）
-
-双击 `Install-ZhCN.exe`。它会先检测同目录有没有 `Victoria.exe`：
-
-- **有** → 解压覆盖 `LNG\Chinese.lng` 与 `Help\Chinese\*.rtf`，并把语言自动切换为中文
+- **同目录有 `Victoria.exe`** → 自动解压覆盖 `LNG\Chinese.lng` 与 `Help\Chinese\*.rtf`，并把语言切换为中文
 - **没有** → 弹窗提示你把程序放到 Victoria 根目录，**不落任何文件**
 
-### 方式二：解压即用
+### 手动安装（不想运行 exe 的话）
 
-包内结构就是 Victoria 的安装结构（`LNG\`、`Help\Chinese\`）。解压到程序根目录后直接重启 Victoria，菜单 **Language → Chinese** 选一次即可——不需要运行任何程序。
+从仓库取 `Chinese.lng` 与 `Help/Chinese/`，分别放进 Victoria 的 `LNG\`、`Help\Chinese\`，重启 Victoria，菜单 **Language → Chinese** 选一次即可。
 
 ### 安装之后
 
